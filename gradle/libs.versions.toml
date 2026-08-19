@@ -1,4 +1,6 @@
 [versions]
+lifecycle-viewmodel-compose = "2.8.7"
+navigation-compose = "2.8.5"
 ktor = "3.0.1"
 kotlinx-serialization = "1.7.3"
 agp = "8.13.2"
@@ -12,6 +14,8 @@ activityCompose = "1.9.3"
 composeBom = "2024.12.01"
 
 [libraries]
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle-viewmodel-compose" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
