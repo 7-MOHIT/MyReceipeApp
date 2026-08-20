@@ -1,3 +1,5 @@
 package com.example.myreceipeapp.data.remote.dto
 
-data class RecipesResponse()
+data class RecipesResponse(
+    val recipes : List<>
+)
