@@ -43,6 +43,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.ktor.client.android)
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.coil.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
