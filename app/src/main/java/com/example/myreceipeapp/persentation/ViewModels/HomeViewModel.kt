@@ -29,4 +29,14 @@ class HomeViewModel : ViewModel() {
     // now the recipes.. to fetch .. by default it is empty , but if data comes from server , then the data will be shown
     var recipes by mutableStateOf<List<RecipeDTO>>(emptyList())
         private set
+
+    // user can select category , by default let me set it to ALL
+    var selectedCategory by mutableStateOf("All")
+        private set
+
+    // to store all the recipes, if not a empty list will be shown.
+    private var allRecipes :List<RecipeDTO>  = emptyList()
+
+
+
 }
