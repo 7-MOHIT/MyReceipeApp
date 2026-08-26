@@ -28,4 +28,5 @@ class HomeViewModel : ViewModel() {
 
     // now the recipes.. to fetch .. by default it is empty , but if data comes from server , then the data will be shown
     var recipes by mutableStateOf<List<RecipeDTO>>(emptyList())
+        private set
 }
