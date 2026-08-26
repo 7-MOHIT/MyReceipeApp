@@ -16,7 +16,7 @@ object KtorClient {
             )
         }
     }
-    private const val BASE_URL = "https://dummyjson.com/"
+     const val BASE_URL = "https://dummyjson.com/"
     const val PRODUCTS = "$BASE_URL/products"
     const val CARTS = "$BASE_URL/carts"
     const val USERS = "$BASE_URL/users"
