@@ -12,8 +12,11 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 
 class RecipeApiService(private val client: HttpClient) {
+    //  we can call our base url and then add the endpoint to it ,
+    //  or can call the thing directly which we have already made in the previous file
     suspend fun getAllRecipes(): RecipeResponse {
-        return client.get(urlString = "${KtorClient.BASE_URL}recipes").body()
+        return client.get(urlString = "${KtorClient.RECIPE}").body()
+//        return client.get(urlString = "${KtorClient.BASE_URL}recipes").body()
     }
 
     suspend fun getRecipeById(id: Int): RecipeDTO {
