@@ -11,5 +11,4 @@ class RecipeRepositoryImpl(private val apiService: RecipeApiService) : RecipeRep
     override suspend fun getRecipeById(id: Int): RecipeDTO {
         return apiService.getRecipeById(id)
     }
-
 }
