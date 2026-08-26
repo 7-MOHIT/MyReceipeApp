@@ -4,11 +4,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.myreceipeapp.data.remote.KtorClient
 import com.example.myreceipeapp.data.remote.RecipeApiService
 import com.example.myreceipeapp.data.remote.dto.RecipeDTO
 import com.example.myreceipeapp.data.repository.RecipeRepositoryImpl
 import com.example.myreceipeapp.domain.RecipeRepository
+import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
     private val repository: RecipeRepository =
@@ -35,8 +37,15 @@ class HomeViewModel : ViewModel() {
         private set
 
     // to store all the recipes, if not a empty list will be shown.
-    private var allRecipes :List<RecipeDTO>  = emptyList()
+    private var allRecipes: List<RecipeDTO> = emptyList()
 
-
+    fun fetchRecipes() {
+        isLoading = true
+        errorMessage=null
+        viewModelScope.launch {
+            val result = repository.getAllRecipes()
+            allRecipes = result
+        }
+    }
 
 }
