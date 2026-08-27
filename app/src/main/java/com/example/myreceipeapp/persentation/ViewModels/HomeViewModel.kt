@@ -49,7 +49,11 @@ class HomeViewModel : ViewModel() {
             val result = repository.getAllRecipes()
             allRecipes = result
 
+            // NOW IF I WANT TO ADD CATEGORIES FOR THe RECIPE ITEMS...
+//            like italian food  ,chinese food , then  we will add cuisine
 
+            val cuisines = result.map { it.cuisine }.distinct().sorted()
+            categories = listOf("All") + cuisines
         }
     }
 }
