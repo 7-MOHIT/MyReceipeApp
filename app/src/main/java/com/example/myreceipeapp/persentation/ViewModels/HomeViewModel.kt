@@ -54,6 +54,8 @@ class HomeViewModel : ViewModel() {
 
             val cuisines = result.map { it.cuisine }.distinct().sorted()
             categories = listOf("All") + cuisines
+            applyFilters()
+
         }
     }
 
