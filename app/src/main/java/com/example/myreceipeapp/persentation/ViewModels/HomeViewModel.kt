@@ -57,6 +57,10 @@ class HomeViewModel : ViewModel() {
             } catch (e: Exception) {
                 errorMessage = e.message ?: "An unexpected error occurred."
             }
+            finally {
+                // this will run in both the cases.
+                isLoading=false
+            }
         }
     }
 
