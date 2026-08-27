@@ -27,9 +27,12 @@ class HomeViewModel : ViewModel() {
     var errorMessage by mutableStateOf<String?>(null)
         private set
 
-
     // now the recipes.. to fetch .. by default it is empty , but if data comes from server , then the data will be shown
     var recipes by mutableStateOf<List<RecipeDTO>>(emptyList())
+        private set
+
+    // list of all the categories.
+    var categories by mutableStateOf<List<String>>(listOf("All"))
         private set
 
     // user can select category , by default let me set it to ALL
@@ -45,6 +48,8 @@ class HomeViewModel : ViewModel() {
         viewModelScope.launch {
             val result = repository.getAllRecipes()
             allRecipes = result
+
+
         }
     }
 }
