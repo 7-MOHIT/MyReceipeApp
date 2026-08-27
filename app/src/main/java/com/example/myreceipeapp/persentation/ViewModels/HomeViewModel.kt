@@ -41,11 +41,10 @@ class HomeViewModel : ViewModel() {
 
     fun fetchRecipes() {
         isLoading = true
-        errorMessage=null
+        errorMessage = null
         viewModelScope.launch {
             val result = repository.getAllRecipes()
             allRecipes = result
         }
     }
-
 }
