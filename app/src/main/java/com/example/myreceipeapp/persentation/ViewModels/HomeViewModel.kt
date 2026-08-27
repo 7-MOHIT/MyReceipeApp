@@ -56,4 +56,11 @@ class HomeViewModel : ViewModel() {
             categories = listOf("All") + cuisines
         }
     }
+
+    // now if i want to show  recipes according to the category which user selects.
+    private fun applyFilters() {
+        recipes =
+            if (selectedCategory == "All") allRecipes
+            else allRecipes.filter { it.cuisine == selectedCategory }
+    }
 }
