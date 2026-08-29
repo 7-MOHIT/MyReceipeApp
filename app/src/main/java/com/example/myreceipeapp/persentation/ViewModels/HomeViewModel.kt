@@ -56,12 +56,17 @@ class HomeViewModel : ViewModel() {
                 applyFilters()
             } catch (e: Exception) {
                 errorMessage = e.message ?: "An unexpected error occurred."
-            }
-            finally {
+            } finally {
                 // this will run in both the cases.
                 isLoading = false
             }
         }
+    }
+
+    // if user clicks on some other category then ,
+    fun onCategorySelected(category: String) {
+        selectedCategory = category
+        applyFilters()
     }
 
     // now if i want to show  recipes according to the category which user selects.
