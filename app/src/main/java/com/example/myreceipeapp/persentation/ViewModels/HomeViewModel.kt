@@ -9,7 +9,7 @@ import com.example.myreceipeapp.data.remote.KtorClient
 import com.example.myreceipeapp.data.remote.RecipeApiService
 import com.example.myreceipeapp.data.remote.dto.RecipeDTO
 import com.example.myreceipeapp.data.repository.RecipeRepositoryImpl
-import com.example.myreceipeapp.domain.RecipeRepository
+import com.example.myreceipeapp.domain.Repository.RecipeRepository
 import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
@@ -59,7 +59,7 @@ class HomeViewModel : ViewModel() {
             }
             finally {
                 // this will run in both the cases.
-                isLoading=false
+                isLoading = false
             }
         }
     }

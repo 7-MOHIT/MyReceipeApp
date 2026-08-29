@@ -1,4 +1,4 @@
-package com.example.myreceipeapp.domain
+package com.example.myreceipeapp.domain.Repository
 
 import com.example.myreceipeapp.data.remote.dto.RecipeDTO
 
