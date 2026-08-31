@@ -1,6 +1,7 @@
 package com.example.myreceipeapp.persentation.screens.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,18 +18,17 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.MenuOpen
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.MenuOpen
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.RestaurantMenu
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
@@ -42,15 +42,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.SubcomposeAsyncImage
+import com.example.myreceipeapp.data.remote.dto.RecipeDTO
+import com.example.myreceipeapp.persentation.Components.LoadingIndicator
 import com.example.myreceipeapp.persentation.ViewModels.HomeViewModel
 import com.example.myreceipeapp.ui.theme.myOrange
-import io.ktor.client.plugins.cache.storage.FileStorage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -76,38 +78,39 @@ fun HomeScreen(
                 )
         ) {
             when {
-                viewModel.isLoading -> LoadingIndicator()
+                viewModel.isLoading -> LoadingIndicator(1.dp)
                 viewModel.errorMessage != null -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = viewModel.errorMessage ?: "",
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = myOrange
-                        )
-                        Spacer(modifier = Modifier.height(24.dp))
-                        Button(
-                            onClick = { viewModel.fetchRecipes() },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 24.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = myOrange,
-                                contentColor = Color.White
-                            )
+                    Column() {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "Retry",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold
+                                text = viewModel.errorMessage ?: "",
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = myOrange
                             )
+                            Spacer(modifier = Modifier.height(24.dp))
+                            Button(
+                                onClick = { viewModel.fetchRecipes() },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 24.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = myOrange,
+                                    contentColor = Color.White
+                                )
+                            ) {
+                                Text(
+                                    text = "Retry",
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
                         }
                     }
                 }
-
                 else -> {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
@@ -140,9 +143,117 @@ fun HomeScreen(
                                 icon = Icons.Default.Menu
                             )
                         }
+                        if (viewModel.recipes.isEmpty()) {
+                            item(span = { GridItemSpan(currentLineSpan = maxLineSpan) }) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 48.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = "No Recipes Found",
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = myOrange
+                                    )
+                                }
+                            }
+                        } else {
+                            items(viewModel.recipes, key = { it.id }) { recipe ->
+                                RecipeCard(
+                                    recipe,
+                                    onClick = { onRecipeClick(recipe.id) }
+                                )
+                            }
+                        }
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun RecipeCard(
+    recipe: RecipeDTO,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+        border = CardDefaults.outlinedCardBorder()
+    ) {
+        Column() {
+            //Image
+            SubcomposeAsyncImage(
+                model = recipe.image,
+                contentDescription = recipe.name,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(140.dp)
+                    .clip(
+                        shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+                    ),
+                contentScale = ContentScale.Crop,
+                loading = { LoadingIndicator(2.dp) },
+                error = {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    )
+                    {
+                        Text(
+                            text = "\uD83D\uDC7B",
+                            fontSize = 32.sp
+                        )
+                    }
+                }
+            )
+            Column(modifier = Modifier.padding(12.dp))
+            {
+                Text(
+                    text = recipe.name,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    color = Color.DarkGray
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = recipe.cuisine,
+                        color = Color.Gray,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                color = myOrange.copy(alpha = 0.1f),
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                    ) {
+                        Text(
+                            text = recipe.difficulty,
+                            fontSize = 12.sp,
+                            color = myOrange,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                }
+            }
+
         }
     }
 }
@@ -245,16 +356,5 @@ fun HomeHeader() {
             Spacer(modifier = Modifier.height(2.dp))
             Text(text = "Find something delicious to Cook")
         }
-    }
-}
-
-
-@Composable
-fun LoadingIndicator() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator(color = myOrange)
     }
 }
