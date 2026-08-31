@@ -1,6 +1,7 @@
 package com.example.myreceipeapp.persentation.screens.recipeDetail
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myreceipeapp.persentation.ViewModels.RecipeDetailViewModel
 
@@ -11,5 +12,7 @@ fun RecipeDetailScreen(
     viewModel: RecipeDetailViewModel = viewModel(),
 
     ) {
-
+    LaunchedEffect(recipeId) {
+        viewModel.fetchRecipeDetails(id = recipeId)
+    }
 }
