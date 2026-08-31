@@ -1,6 +1,7 @@
 package com.example.myreceipeapp.persentation.screens.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,6 +41,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -73,6 +75,7 @@ fun HomeScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .background(color = myOrange.copy(alpha = 0.05f))
                 .padding(
                     innerPadding
                 )
@@ -111,6 +114,7 @@ fun HomeScreen(
                         }
                     }
                 }
+
                 else -> {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
@@ -143,6 +147,7 @@ fun HomeScreen(
                                 icon = Icons.Default.Menu
                             )
                         }
+
                         if (viewModel.recipes.isEmpty()) {
                             item(span = { GridItemSpan(currentLineSpan = maxLineSpan) }) {
                                 Box(
@@ -182,6 +187,11 @@ fun RecipeCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .border(
+                width = 1.dp,
+                color = myOrange,
+                shape = RoundedCornerShape(16.dp)
+            )
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -218,12 +228,13 @@ fun RecipeCard(
             {
                 Text(
                     text = recipe.name,
-                    fontSize = 20.sp,
+                    fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     color = Color.DarkGray
                 )
+                Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -231,7 +242,7 @@ fun RecipeCard(
                 ) {
                     Text(
                         text = recipe.cuisine,
-                        color = Color.Gray,
+                        fontSize = 14.sp,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.weight(1f)
