@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Text
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.myreceipeapp.persentation.Navigation.RecipeNavHost
 import com.example.myreceipeapp.persentation.screens.home.HomeScreen
 import com.example.myreceipeapp.ui.theme.MyReceipeAppTheme
 
@@ -17,7 +18,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyReceipeAppTheme {
-                HomeScreen(onRecipeClick = {})
+                RecipeNavHost()
             }
         }
     }
