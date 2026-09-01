@@ -17,14 +17,17 @@ fun RecipeNavHost() {
         startDestination = HomeRoute
     ) {
         composable<HomeRoute> {
-            HomeScreen(onRecipeClick = { navController.navigate(RecipeDetailRoute(recipeId = id)) })
+            HomeScreen(onRecipeClick = { id ->
+                navController.navigate(
+                    RecipeDetailRoute(recipeId = id)
+                )
+            })
         }
         composable<RecipeDetailRoute> { backStackEntry ->
             val detailRoute = backStackEntry.toRoute<RecipeDetailRoute>()
             RecipeDetailScreen(
                 recipeId = detailRoute.recipeId,
                 onBack = { navController.popBackStack() })
-
         }
     }
 }
