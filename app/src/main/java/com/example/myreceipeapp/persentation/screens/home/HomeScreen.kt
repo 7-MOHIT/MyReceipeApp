@@ -1,5 +1,6 @@
 package com.example.myreceipeapp.persentation.screens.home
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -142,7 +143,10 @@ fun HomeScreen(
                             items(viewModel.recipes, key = { it.id }) { recipe ->
                                 RecipeCard(
                                     recipe,
-                                    onClick = { onRecipeClick(recipe.id) }
+                                    onClick = {
+                                        Log.d("msg","moving to detail screen.")
+                                        onRecipeClick(recipe.id)
+                                    }
                                 )
                             }
                         }
@@ -296,7 +300,7 @@ fun SectionHeader(
             tint = myOrange,
             modifier = Modifier.size(20.dp)
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.width(8.dp))
         Text(
             text = title,
             fontWeight = FontWeight.Bold,
