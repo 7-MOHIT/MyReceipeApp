@@ -1,5 +1,6 @@
 package com.example.myreceipeapp.persentation.screens.recipeDetail
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,39 +20,25 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.MenuBook
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.filled.Details
 import androidx.compose.material.icons.filled.Egg
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocalFireDepartment
-import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Timer
-import androidx.compose.material.icons.filled.Title
 import androidx.compose.material.icons.filled.Whatshot
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -70,7 +57,9 @@ import com.example.myreceipeapp.ui.theme.myOrange
 
 @Composable
 fun RecipeDetailScreen(
-    recipeId: Int, onBack: () -> Unit, viewModel: RecipeDetailViewModel = viewModel()
+    recipeId: Int,
+    onBack: () -> Unit,
+    viewModel: RecipeDetailViewModel = viewModel()
 ) {
     LaunchedEffect(recipeId) {
         viewModel.fetchRecipeDetails(id = recipeId)
@@ -78,7 +67,9 @@ fun RecipeDetailScreen(
     Scaffold(
         topBar = {
             MyTopBar(
-                title = "RECIPE DETAILS", onBack, icon = Icons.AutoMirrored.Filled.ArrowBack
+                title = "RECIPE DETAILS",
+                onBackClick = onBack,
+                icon = Icons.AutoMirrored.Filled.ArrowBack
             )
         }) { innerPadding ->
         Box(
@@ -126,7 +117,10 @@ fun RecipeDetailContent(
                 .clip(shape = RoundedCornerShape(24.dp)),
             contentScale = ContentScale.Crop
         )
-        DetailSection(title = "Recipe Details", icon = Icons.Default.RemoveRedEye) {
+        DetailSection(
+            title = "Recipe Details",
+            icon = Icons.Default.RemoveRedEye
+        ) {
             Text(
                 text = details.name,
                 fontSize = 16.sp,
@@ -147,6 +141,7 @@ fun RecipeDetailContent(
                 icon = Icons.Default.Bolt
             )
         }
+
         DetailSection(title = "At a Glance", icon = Icons.Default.Timer) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -158,39 +153,32 @@ fun RecipeDetailContent(
                     icon = Icons.Default.Schedule,
                     value = "${details.prepTimeMinutes}m"
                 )
-                HorizontalDivider(
-                    modifier = Modifier.height(36.dp),
-                    thickness = 1.dp,
-                    color = Color.Gray.copy(alpha = 0.2f)
-                )
+
                 StatItem(
                     label = "Cook",
                     icon = Icons.Default.Whatshot,
                     value = "${details.cookTimeMinutes}m"
                 )
-                HorizontalDivider(
-                    modifier = Modifier.height(36.dp),
-                    thickness = 1.dp,
-                    color = Color.Gray.copy(alpha = 0.2f)
-                )
+
                 StatItem(
                     label = "Serves",
                     icon = Icons.Default.Egg,
                     value = "${details.servings}m"
                 )
-                HorizontalDivider(
-                    modifier = Modifier.height(36.dp),
-                    thickness = 1.dp,
-                    color = Color.Gray.copy(alpha = 0.2f)
-                )
+
                 StatItem(
                     label = "Calories",
                     icon = Icons.Default.LocalFireDepartment,
-                    value = "${details.caloriesPerServing}m"
+                    value = "${details.caloriesPerServing}"
                 )
 
             }
         }
+//        HorizontalDivider(
+//            modifier = Modifier.height(12.dp),
+//            thickness = 1.dp,
+//            color = Color.Gray.copy(alpha = 0.2f)
+//        )
         DetailSection(title = "Ingrediants", icon = Icons.Default.Restaurant) {
             details.ingredients.forEach { ingredient ->
                 Row(
@@ -224,7 +212,8 @@ fun RecipeDetailContent(
                     Box(
                         modifier = Modifier
                             .size(28.dp)
-                            .clip(CircleShape),
+                            .clip(CircleShape)
+                            .background(color = myOrange),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
