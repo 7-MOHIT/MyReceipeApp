@@ -34,6 +34,7 @@ class RecipeDetailViewModel : ViewModel() {
     // function to fetching the recipe by only a id given to it.
 //    it will show all the details of the ... recipe whose id is passed to it.
     fun fetchRecipeDetails(id: Int) {
+        viewModelScope.launch {
         isLoading = true
         errorMessage = null
         try {
@@ -46,4 +47,5 @@ class RecipeDetailViewModel : ViewModel() {
             isLoading = false
         }
     }
+}
 }
