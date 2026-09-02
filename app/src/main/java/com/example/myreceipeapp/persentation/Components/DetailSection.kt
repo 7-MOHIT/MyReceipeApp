@@ -52,11 +52,12 @@ fun DetailSection(
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = title,
-                    fontSize = 12.sp,
+                    fontSize = 15.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = myOrange,
                 )
             }
+            content()
         }
     }
 }
