@@ -1,12 +1,12 @@
 package com.example.myreceipeapp.persentation.Navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.example.myreceipeapp.persentation.screens.Products.ProductMainScreen
+import com.example.myreceipeapp.persentation.screens.ProductsDetailScreen.ProductDetailScreen
+import com.example.myreceipeapp.persentation.screens.ProductsHome.ProductMainScreen
 import com.example.myreceipeapp.persentation.screens.home.HomeScreen
 import com.example.myreceipeapp.persentation.screens.recipeDetail.RecipeDetailScreen
 
@@ -15,7 +15,8 @@ fun RecipeNavHost() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = HomeRoute
+        startDestination = ProductMainScreenRoute
+//        startDestination = HomeRoute
     ) {
         composable<HomeRoute> {
             HomeScreen(onRecipeClick = { id ->
@@ -31,7 +32,17 @@ fun RecipeNavHost() {
                 onBack = { navController.popBackStack() })
         }
         composable<ProductMainScreenRoute> {
-            ProductMainScreen()
+            ProductMainScreen(onClick = { id ->
+                navController.navigate(
+                    ProductDetailScreenRoute(productId = id)
+                )
+            })
+        }
+        composable<ProductDetailScreenRoute> { backStackEntry ->
+            val detailRoute = backStackEntry.toRoute<ProductDetailScreenRoute>()
+            ProductDetailScreen(
+                detailRoute.productId,
+                onBack = { navController.popBackStack() })
         }
     }
 }
