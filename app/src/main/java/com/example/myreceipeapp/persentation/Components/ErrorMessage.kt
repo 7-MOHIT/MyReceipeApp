@@ -19,7 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
-import com.example.myreceipeapp.persentation.ViewModels.RecipeDetailViewModel
+import com.example.myreceipeapp.persentation.screens.recipeDetail.RecipeDetailViewModel
 import com.example.myreceipeapp.ui.theme.myOrange
 
 @Composable

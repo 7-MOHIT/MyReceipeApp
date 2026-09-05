@@ -56,7 +56,7 @@ import com.example.myreceipeapp.persentation.Components.LoadingIndicator
 import com.example.myreceipeapp.persentation.Components.MyTopBar
 import com.example.myreceipeapp.persentation.Components.StatItem
 import com.example.myreceipeapp.persentation.Components.infoChip
-import com.example.myreceipeapp.persentation.ViewModels.RecipeDetailViewModel
+import com.example.myreceipeapp.persentation.screens.recipeDetail.RecipeDetailViewModel
 import com.example.myreceipeapp.ui.theme.myOrange
 
 @Composable

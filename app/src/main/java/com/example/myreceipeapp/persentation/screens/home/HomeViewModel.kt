@@ -1,4 +1,4 @@
-package com.example.myreceipeapp.persentation.ViewModels
+package com.example.myreceipeapp.persentation.screens.home
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
