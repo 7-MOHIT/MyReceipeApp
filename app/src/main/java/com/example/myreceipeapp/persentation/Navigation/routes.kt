@@ -17,3 +17,7 @@ data class RecipeDetailRoute(val recipeId: Int) {
 object ProductMainScreenRoute{
 
 }
+@Serializable
+data class ProductDetailScreenRoute(val productId :Int){
+
+}

@@ -36,7 +36,6 @@ class ProductsMainScreenViewModel : ViewModel() {
     }
 
     fun fetchProducts() {
-
         isLoading = true
         errorMessage = null
         viewModelScope.launch {
