@@ -1,6 +1,6 @@
 package com.example.myreceipeapp.domain.Repository
 
-import com.example.myreceipeapp.data.remote.dto.RecipeDTO
+import com.example.myreceipeapp.data.remote.dto.Recipes.RecipeDTO
 
 interface RecipeRepository {
     // this file is required to tell all the methods and functions to fetch the data.

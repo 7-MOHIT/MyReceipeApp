@@ -1,8 +1,8 @@
 package com.example.myreceipeapp.data.remote
 
-import com.example.myreceipeapp.data.remote.dto.AddRecipeRequest
-import com.example.myreceipeapp.data.remote.dto.RecipeDTO
-import com.example.myreceipeapp.data.remote.dto.RecipeResponse
+import com.example.myreceipeapp.data.remote.dto.Recipes.AddRecipeRequest
+import com.example.myreceipeapp.data.remote.dto.Recipes.RecipeDTO
+import com.example.myreceipeapp.data.remote.dto.Recipes.RecipeResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get

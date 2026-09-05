@@ -1,4 +1,4 @@
-package com.example.myreceipeapp.data.remote.dto
+package com.example.myreceipeapp.data.remote.dto.Recipes
 
 import kotlinx.serialization.Serializable
 

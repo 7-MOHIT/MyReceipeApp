@@ -1,7 +1,7 @@
 package com.example.myreceipeapp.data.repository
 
 import com.example.myreceipeapp.data.remote.RecipeApiService
-import com.example.myreceipeapp.data.remote.dto.RecipeDTO
+import com.example.myreceipeapp.data.remote.dto.Recipes.RecipeDTO
 import com.example.myreceipeapp.domain.Repository.RecipeRepository
 
 class RecipeRepositoryImpl(private val apiService: RecipeApiService) : RecipeRepository {

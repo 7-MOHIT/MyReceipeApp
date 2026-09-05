@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myreceipeapp.data.remote.KtorClient
 import com.example.myreceipeapp.data.remote.RecipeApiService
-import com.example.myreceipeapp.data.remote.dto.RecipeDTO
+import com.example.myreceipeapp.data.remote.dto.Recipes.RecipeDTO
 import com.example.myreceipeapp.data.repository.RecipeRepositoryImpl
 import com.example.myreceipeapp.domain.Repository.RecipeRepository
 import kotlinx.coroutines.launch
