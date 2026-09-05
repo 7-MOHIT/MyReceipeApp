@@ -43,6 +43,7 @@ class ProductsMainScreenViewModel : ViewModel() {
             try {
                 val result = repository.getAllProducts()
                 allProducts = result
+                products = result
             } catch (e: Exception) {
                 errorMessage = e.message ?: "An unexpected error occurred."
             } finally {//this will run in both the cases of try and catch.
