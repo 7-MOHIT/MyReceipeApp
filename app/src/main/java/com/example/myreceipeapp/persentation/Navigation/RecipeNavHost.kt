@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.example.myreceipeapp.persentation.screens.Products.ProductMainScreen
 import com.example.myreceipeapp.persentation.screens.home.HomeScreen
 import com.example.myreceipeapp.persentation.screens.recipeDetail.RecipeDetailScreen
 
@@ -28,6 +29,9 @@ fun RecipeNavHost() {
             RecipeDetailScreen(
                 recipeId = detailRoute.recipeId,
                 onBack = { navController.popBackStack() })
+        }
+        composable<ProductMainScreenRoute> {
+            ProductMainScreen()
         }
     }
 }
