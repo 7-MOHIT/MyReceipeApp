@@ -2,7 +2,7 @@ package com.example.myreceipeapp.data.repository
 
 import com.example.myreceipeapp.data.remote.RecipeApiService
 import com.example.myreceipeapp.data.remote.dto.Recipes.RecipeDTO
-import com.example.myreceipeapp.domain.Repository.RecipeRepository
+import com.example.myreceipeapp.domain.Repository.Recipes.RecipeRepository
 
 class RecipeRepositoryImpl(private val apiService: RecipeApiService) : RecipeRepository {
     override suspend fun getAllRecipes(): List<RecipeDTO> {

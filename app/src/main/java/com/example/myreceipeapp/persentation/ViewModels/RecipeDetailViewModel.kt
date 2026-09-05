@@ -9,7 +9,7 @@ import com.example.myreceipeapp.data.remote.KtorClient
 import com.example.myreceipeapp.data.remote.RecipeApiService
 import com.example.myreceipeapp.data.remote.dto.Recipes.RecipeDTO
 import com.example.myreceipeapp.data.repository.RecipeRepositoryImpl
-import com.example.myreceipeapp.domain.Repository.RecipeRepository
+import com.example.myreceipeapp.domain.Repository.Recipes.RecipeRepository
 import kotlinx.coroutines.launch
 
 class RecipeDetailViewModel : ViewModel() {
