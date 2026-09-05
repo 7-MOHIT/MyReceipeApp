@@ -1,4 +1,4 @@
-package com.example.myreceipeapp.persentation.screens.Products
+package com.example.myreceipeapp.persentation.screens.ProductsHome
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
