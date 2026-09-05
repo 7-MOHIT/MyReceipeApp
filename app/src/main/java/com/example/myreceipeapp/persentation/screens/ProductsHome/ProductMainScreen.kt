@@ -1,6 +1,7 @@
 package com.example.myreceipeapp.persentation.screens.ProductsHome
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,7 +39,8 @@ import com.example.myreceipeapp.ui.theme.myOrange
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductMainScreen(
-    viewModel: ProductsMainScreenViewModel = viewModel()
+    viewModel: ProductsMainScreenViewModel = viewModel(),
+    onClick: (Int) -> Unit
 ) {
     val products = viewModel.products
     Scaffold(
@@ -77,7 +79,10 @@ fun ProductMainScreen(
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         items(products, key = { it.id }) { product ->
-                            ProductItem(product = product)
+                            ProductItem(
+                                product = product,
+                                { onClick(product.id) }
+                            )
                         }
                     }
                 }
@@ -87,9 +92,13 @@ fun ProductMainScreen(
 }
 
 @Composable
-fun ProductItem(product: Product) {
+fun ProductItem(
+    product: Product,
+    onClick: () -> Unit
+) {
     Card(
         modifier = Modifier
+            .clickable(onClick = onClick)
             .fillMaxWidth()
             .padding(4.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
@@ -101,7 +110,8 @@ fun ProductItem(product: Product) {
             AsyncImage(
                 model = product.thumbnail,
                 contentDescription = product.title,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
                     .clip(RoundedCornerShape(8.dp)),
                 contentScale = ContentScale.Crop
             )
