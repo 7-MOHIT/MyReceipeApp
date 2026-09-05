@@ -42,7 +42,6 @@ class HomeViewModel : ViewModel() {
     // to store all the recipes, if not a empty list will be shown.
     private var allRecipes: List<RecipeDTO> = emptyList()
     init {
-
         fetchRecipes()
     }
 
