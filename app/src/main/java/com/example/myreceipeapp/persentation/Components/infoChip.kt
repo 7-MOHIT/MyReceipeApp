@@ -21,12 +21,13 @@ import com.example.myreceipeapp.ui.theme.myOrange
 
 @Composable
 fun infoChip(
-    label: String, icon: ImageVector
+    label: String, icon: ImageVector,
+    modifier: Modifier = Modifier
 ) {
 
     if (label.isBlank()) return
     Row(
-        modifier = Modifier
+        modifier = modifier.padding(end=6.dp)
             .clip(
                 shape = RoundedCornerShape(20.dp)
 

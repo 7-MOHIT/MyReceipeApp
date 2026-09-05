@@ -27,6 +27,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.RestaurantMenu
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarOutline
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -144,7 +146,7 @@ fun HomeScreen(
                                 RecipeCard(
                                     recipe,
                                     onClick = {
-                                        Log.d("msg","moving to detail screen.")
+                                        Log.d("msg", "moving to detail screen.")
                                         onRecipeClick(recipe.id)
                                     }
                                 )
@@ -202,8 +204,7 @@ fun RecipeCard(
                     }
                 }
             )
-            Column(modifier = Modifier.padding(12.dp))
-            {
+            Column(modifier = Modifier.padding(8.dp)) {
                 Text(
                     text = recipe.name,
                     fontSize = 16.sp,
@@ -241,6 +242,26 @@ fun RecipeCard(
                         )
                     }
                 }
+            }
+            Column(modifier = Modifier.padding(8.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center) {
+                    Text(
+                        text = "Rating : ${recipe.rating}",
+                        fontSize = 14.sp,
+                        color = Color.Black,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Icon(Icons.Default.StarOutline,
+                        contentDescription = "Star",
+                        Modifier.size(15.dp))
+                }
+                Text(
+                    text = "ReviesCount : ${recipe.reviewCount}",
+                    fontSize = 14.sp,
+                    color = Color.Black,
+                    fontWeight = FontWeight.SemiBold
+                )
             }
 
         }
