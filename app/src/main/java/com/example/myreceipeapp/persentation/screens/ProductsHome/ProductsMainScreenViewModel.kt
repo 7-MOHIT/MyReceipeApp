@@ -29,6 +29,11 @@ class ProductsMainScreenViewModel : ViewModel() {
     var products by mutableStateOf<List<Product>>(emptyList())
         private set
 
+    var searchQuery by mutableStateOf("")
+        private set
+
+    var isSearchActive by mutableStateOf(false)
+        private set
     // to store all the recipes, if not a empty list will be shown.
     private var allProducts: List<Product> = emptyList()
     init {
@@ -48,6 +53,25 @@ class ProductsMainScreenViewModel : ViewModel() {
             } finally {//this will run in both the cases of try and catch.
                 isLoading = false;
             }
+        }
+    }
+
+    fun onSearchQueryChange(query: String) {
+        searchQuery = query
+        products = if (query.isBlank()) {
+            allProducts
+        } else {
+            allProducts.filter {
+                it.title.contains(query, ignoreCase = true)
+            }
+        }
+    }
+
+    fun onSearchToggle(active: Boolean) {
+        isSearchActive = active
+        if (!active) {
+            searchQuery = ""
+            products = allProducts
         }
     }
 }
