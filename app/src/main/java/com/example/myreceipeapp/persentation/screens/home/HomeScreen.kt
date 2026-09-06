@@ -87,7 +87,7 @@ fun HomeScreen(
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet {
+            ModalDrawerSheet(modifier = Modifier.width(250.dp)) {
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = "DUMMY JSON DATA",

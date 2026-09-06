@@ -81,43 +81,7 @@ fun ProductDetailScreen(
 
                 viewModel.product != null -> {
                     ProductDetailContent(product)
-//                    Column(
-//                        modifier = Modifier.padding(12.dp),
-//                        verticalArrangement = Arrangement.Center,
-//                        horizontalAlignment = Alignment.CenterHorizontally
-//                    ) {
-//                        AsyncImage(
-//                            model = product!!.thumbnail,
-//                            contentDescription = viewModel.product!!.title,
-//                            modifier = Modifier
-//                                .size(126.dp)
-//                                .clip(RoundedCornerShape(8.dp)),
-//                            contentScale = ContentScale.Crop
-//                        )
-//                        Text(text = "id is : ${viewModel.product!!.id}")
-//                        Text(text = "title is : ${viewModel.product!!.title}")
-//                        Text(text = "description is : ${viewModel.product!!.description}")
-//                        Text(text = "category is : ${viewModel.product!!.category}")
-//                        Text(text = "price is : ${viewModel.product!!.price}")
-//                        Text(text = "discountPercentage is : ${viewModel.product!!.discountPercentage}")
-//                        Text(text = "rating is : ${viewModel.product!!.rating}")
-//                        Text(text = "stock is : ${viewModel.product!!.stock}")
-//                        //tags
-//                        Text(text = "brand is : ${viewModel.product!!.brand}")
-//                        Text(text = "sku is : ${viewModel.product!!.sku}")
-//                        Text(text = "weight is : ${viewModel.product!!.weight}")
-//                        Text(text = "height is : ${viewModel.product!!.dimensions.height}")
-//                        Text(text = "width is : ${viewModel.product!!.dimensions.width}")
-//                        Text(text = "depth is : ${viewModel.product!!.dimensions.depth}")
-//                        Text(text = "warranty Information is : ${viewModel.product!!.warrantyInformation}")
-//                        Text(text = "shipping Information is : ${viewModel.product!!.shippingInformation}")
-//                        Text(text = "availability Status is : ${viewModel.product!!.availabilityStatus}")
-//                        //revies
-//                        Text(text = "Return policy is : ${viewModel.product!!.returnPolicy}")
-//                        Text(text = "minimum Order Quantity is : ${viewModel.product!!.minimumOrderQuantity}")
-//
-//
-//                    }
+
                 }
             }
         }
