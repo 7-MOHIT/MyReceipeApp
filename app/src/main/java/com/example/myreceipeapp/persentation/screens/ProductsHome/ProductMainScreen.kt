@@ -53,6 +53,7 @@ import com.example.myreceipeapp.data.remote.dto.Products.Product
 import com.example.myreceipeapp.persentation.Components.ErrorMessage
 import com.example.myreceipeapp.persentation.Components.LoadingIndicator
 import com.example.myreceipeapp.persentation.Navigation.HomeRoute
+import com.example.myreceipeapp.persentation.screens.home.SearchableTopAppBar
 import com.example.myreceipeapp.ui.theme.myOrange
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -64,7 +65,7 @@ fun ProductMainScreen(
 
     viewModel: ProductsMainScreenViewModel = viewModel(),
     onClick: (Int) -> Unit,
-    navController : NavController ,
+    navController: NavController,
 ) {
     val products = viewModel.products
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -89,7 +90,8 @@ fun ProductMainScreen(
                     onClick = {
                         scope.launch {
                             navController.navigate(HomeRoute)
-                            drawerState.close() }
+                            drawerState.close()
+                        }
                     },
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )
@@ -111,31 +113,13 @@ fun ProductMainScreen(
     {
         Scaffold(
             topBar = {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = "Products",
-                            fontWeight = FontWeight.Bold
-                        )
-                    },
-                    navigationIcon = {
-
-                        IconButton(onClick = {scope.launch { drawerState.open()} }) {
-                            Icon(
-                                imageVector = Icons.Default.Menu,
-                                contentDescription = "Menu"
-                            )
-                        }
-                    },
-                    actions = {
-                        IconButton(onClick = { }) {
-                            Icon(
-                                imageVector = Icons.Default.Search,
-                                contentDescription = "Search"
-                            )
-                        }
-                    },
-                    )
+                SearchableTopAppBar(
+                    title = "Products",
+                    isSearchActive = viewModel.isSearchActive,
+                    searchQuery = viewModel.searchQuery,
+                    onSearchQueryChange = viewModel::onSearchQueryChange,
+                    onSearchToggle = viewModel::onSearchToggle,
+                    onMenuClick = { scope.launch { drawerState.open() } })
             }) { innerPadding ->
             Box(
                 modifier = Modifier
@@ -184,7 +168,7 @@ fun ProductItem(
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFFEFF5EF),
-            contentColor = Color(0xFF1B5E20)   // dark brown, not pure black — warmer contrast
+            contentColor = Color(0xFF1B5E20)
         )
     ) {
         Row(

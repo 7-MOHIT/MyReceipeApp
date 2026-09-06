@@ -23,16 +23,15 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.RestaurantMenu
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarOutline
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DrawerValue
@@ -47,6 +46,8 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -54,11 +55,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -69,10 +70,71 @@ import com.example.myreceipeapp.data.remote.dto.Recipes.RecipeDTO
 import com.example.myreceipeapp.persentation.Components.ErrorMessage
 import com.example.myreceipeapp.persentation.Components.LoadingIndicator
 import com.example.myreceipeapp.persentation.Navigation.ProductMainScreenRoute
-import com.example.myreceipeapp.persentation.screens.ProductsHome.ProductMainScreen
-import com.example.myreceipeapp.persentation.screens.home.HomeViewModel
 import com.example.myreceipeapp.ui.theme.myOrange
 import kotlinx.coroutines.launch
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchableTopAppBar(
+    title: String,
+    isSearchActive: Boolean,
+    searchQuery: String,
+    onSearchQueryChange: (String) -> Unit,
+    onSearchToggle: (Boolean) -> Unit,
+    onMenuClick: () -> Unit
+) {
+    TopAppBar(
+        title = {
+            if (isSearchActive) {
+                TextField(
+                    value = searchQuery,
+                    onValueChange = onSearchQueryChange,
+                    placeholder = { Text("Search $title...") },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                    colors = TextFieldDefaults.colors(
+                        unfocusedContainerColor = Color.Transparent,
+                        focusedContainerColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent
+                    )
+                )
+            } else {
+                Text(text = title, fontWeight = FontWeight.Bold)
+            }
+        },
+        navigationIcon = {
+            IconButton(onClick = {
+                if (isSearchActive) {
+                    onSearchToggle(false)
+                    onSearchQueryChange("")
+                } else {
+                    onMenuClick()
+                }
+            }) {
+                Icon(
+                    imageVector = if (isSearchActive) {
+                        Icons.Default.ArrowBack
+                    } else Icons.Default.Menu,
+                    contentDescription = if (isSearchActive) "Close search" else "Menu"
+                )
+            }
+        },
+        actions = {
+            if (isSearchActive) {
+                if (searchQuery.isNotEmpty()) {
+                    IconButton(onClick = { onSearchQueryChange("") }) {
+                        Icon(Icons.Default.Clear, contentDescription = "Clear")
+                    }
+                }
+            } else {
+                IconButton(onClick = { onSearchToggle(true) }) {
+                    Icon(Icons.Default.Search, contentDescription = "Search")
+                }
+            }
+        }
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -111,7 +173,8 @@ fun HomeScreen(
                     onClick = {
                         scope.launch {
                             navController.navigate(ProductMainScreenRoute)
-                            drawerState.close() }
+                            drawerState.close()
+                        }
                     },
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )
@@ -121,32 +184,14 @@ fun HomeScreen(
     ) {
         Scaffold(
             topBar = {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = "Recipes",
-                            fontWeight = FontWeight.Bold
-                        )
-                    },
-                    navigationIcon = {
-
-                        IconButton(onClick = {scope.launch { drawerState.open()} }) {
-                            Icon(
-                                imageVector = Icons.Default.Menu,
-                                contentDescription = "Menu"
-                            )
-                        }
-                    },
-                    actions = {
-                        IconButton(onClick = { }) {
-                            Icon(
-                                imageVector = Icons.Default.Search,
-                                contentDescription = "Search"
-                            )
-                        }
-                    },
-
-                    )
+                SearchableTopAppBar(
+                    title = "RECIPES",
+                    isSearchActive = viewModel.isSearchActive,
+                    searchQuery = viewModel.searchQuery,
+                    onSearchQueryChange = viewModel::onSearchQueryChange,
+                    onSearchToggle = viewModel::onSearchToggle,
+                    onMenuClick = { scope.launch { drawerState.open() } }
+                )
             }
         ) { innerPadding ->
             Box(
