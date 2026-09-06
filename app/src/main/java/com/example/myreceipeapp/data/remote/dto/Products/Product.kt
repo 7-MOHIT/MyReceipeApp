@@ -26,4 +26,39 @@ data class Product(
     val title: String,
     val warrantyInformation: String,
     val weight: Int
+){
+    val discountedPrice: Double
+        get() = price * (1 - discountPercentage / 100)
+    val isLowStock: Boolean
+        get() = stock in 1..10
+    val isOutOfStock: Boolean
+        get() = stock == 0
+}
+@Serializable
+data class Dimensions(
+    val depth: Double,
+    val height: Double,
+    val width: Double
+)
+@Serializable
+data class Meta(
+    val barcode: String,
+    val createdAt: String,
+    val qrCode: String,
+    val updatedAt: String
+)
+@Serializable
+data class ProductsResponse(
+    val limit: Int,
+    val products: List<Product>,
+    val skip: Int,
+    val total: Int
+)
+@Serializable
+data class Review(
+    val comment: String,
+    val date: String,
+    val rating: Int,
+    val reviewerEmail: String,
+    val reviewerName: String
 )
