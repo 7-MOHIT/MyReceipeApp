@@ -34,8 +34,10 @@ class ProductsMainScreenViewModel : ViewModel() {
 
     var isSearchActive by mutableStateOf(false)
         private set
+
     // to store all the recipes, if not a empty list will be shown.
     private var allProducts: List<Product> = emptyList()
+
     init {
         fetchProducts()
     }
@@ -63,6 +65,7 @@ class ProductsMainScreenViewModel : ViewModel() {
         } else {
             allProducts.filter {
                 it.title.contains(query, ignoreCase = true)
+                        || it.category.contains(query, ignoreCase = true)
             }
         }
     }
