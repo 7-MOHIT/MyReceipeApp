@@ -44,8 +44,10 @@ class HomeViewModel : ViewModel() {
 
     var isSearchActive by mutableStateOf(false)
         private set
+
     // to store all the recipes, if not a empty list will be shown.
     private var allRecipes: List<RecipeDTO> = emptyList()
+
     init {
         fetchRecipes()
     }
@@ -76,6 +78,7 @@ class HomeViewModel : ViewModel() {
         selectedCategory = category
         applyFilters()
     }
+
     fun onSearchQueryChange(query: String) {
         searchQuery = query
         applyFilters()
@@ -100,6 +103,9 @@ class HomeViewModel : ViewModel() {
         if (searchQuery.isNotBlank()) {
             filtered = filtered.filter {
                 it.name.contains(searchQuery, ignoreCase = true)
+                        ||
+                        it.cuisine.contains(searchQuery, ignoreCase = true)
+
             }
         }
 
