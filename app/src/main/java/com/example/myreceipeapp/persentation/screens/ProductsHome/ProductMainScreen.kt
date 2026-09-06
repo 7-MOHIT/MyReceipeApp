@@ -2,10 +2,8 @@ package com.example.myreceipeapp.persentation.screens.ProductsHome
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,23 +13,30 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,58 +45,132 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.myreceipeapp.data.remote.dto.Products.Product
 import com.example.myreceipeapp.persentation.Components.ErrorMessage
 import com.example.myreceipeapp.persentation.Components.LoadingIndicator
+import com.example.myreceipeapp.persentation.Navigation.HomeRoute
 import com.example.myreceipeapp.ui.theme.myOrange
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductMainScreen(
+
     viewModel: ProductsMainScreenViewModel = viewModel(),
-    onClick: (Int) -> Unit
+    onClick: (Int) -> Unit,
+    navController : NavController ,
 ) {
     val products = viewModel.products
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Products",
-                        fontWeight = FontWeight.Bold
-                    )
-                })
-        }) { innerPadding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = myOrange.copy(alpha = 0.05f))
-                .padding(
-                    innerPadding
-                )
-        ) {
-            when {
-                viewModel.isLoading -> LoadingIndicator(1.dp)
-                viewModel.errorMessage != null -> ErrorMessage(
-                    errorMessage = viewModel.errorMessage,
-                    viewModel = viewModel,
-                    onRetry = { viewModel.fetchProducts() }
-                )
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
 
-                else -> {
-                    LazyColumn()
-                    {
-                        items(products, key = { it.id }) { product ->
-                            ProductItem(
-                                product = product,
-                                onClick = { onClick(product.id) }
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "DUMMY JSON DATA",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(16.dp)
+                )
+                HorizontalDivider(modifier = Modifier.padding(bottom = 2.dp))
+
+                NavigationDrawerItem(
+                    label = { Text("RECIPES") },
+                    selected = true,
+                    onClick = {
+                        scope.launch {
+                            navController.navigate(HomeRoute)
+                            drawerState.close() }
+                    },
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                )
+                NavigationDrawerItem(
+                    label = { Text("PRODUCTS") },
+                    selected = false,
+                    onClick = {
+                        scope.launch {
+                            drawerState.close()
+                        }
+                    },
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                )
+                NavigationDrawerItem(
+                    label = { Text("Settings") },
+                    selected = false,
+                    onClick = {
+                        scope.launch { drawerState.close() }
+                    },
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                )
+            }
+        }
+    )
+
+    {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = "Products",
+                            fontWeight = FontWeight.Bold
+                        )
+                    },
+                    navigationIcon = {
+
+                        IconButton(onClick = {scope.launch { drawerState.open()} }) {
+                            Icon(
+                                imageVector = Icons.Default.Menu,
+                                contentDescription = "Menu"
                             )
                         }
+                    },
+                    actions = {
+                        IconButton(onClick = { }) {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = "Search"
+                            )
+                        }
+                    },
+                    )
+            }) { innerPadding ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = myOrange.copy(alpha = 0.05f))
+                    .padding(
+                        innerPadding
+                    )
+            ) {
+                when {
+                    viewModel.isLoading -> LoadingIndicator(1.dp)
+                    viewModel.errorMessage != null -> ErrorMessage(
+                        errorMessage = viewModel.errorMessage,
+                        viewModel = viewModel,
+                        onRetry = { viewModel.fetchProducts() }
+                    )
 
+                    else -> {
+                        LazyColumn()
+                        {
+                            items(products, key = { it.id }) { product ->
+                                ProductItem(
+                                    product = product,
+                                    onClick = { onClick(product.id) }
+                                )
+                            }
+
+                        }
                     }
                 }
             }
@@ -113,7 +192,8 @@ fun ProductItem(
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFFEFF5EF),
             contentColor = Color(0xFF1B5E20)   // dark brown, not pure black — warmer contrast
-    ) ){
+        )
+    ) {
         Row(
             modifier = Modifier.padding(12.dp),
         ) {
