@@ -2,6 +2,7 @@ package com.example.myreceipeapp.persentation.screens.ProductsHome
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -184,43 +185,47 @@ fun ProductItem(
                 contentScale = ContentScale.Crop
             )
             Spacer(modifier = Modifier.height(12.dp))
-            Column(modifier = Modifier) {
-                product.brand?.let {
+            Row() {
+                Column(modifier = Modifier.weight(1f)) {
+                    product.brand?.let {
+                        Text(
+                            text = it.uppercase(),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
                     Text(
-                        text = it.uppercase(),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.primary,
-                        fontWeight = FontWeight.SemiBold
+                        text = product.title,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                     )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    RatingRow(
+                        rating = product.rating,
+                        reviewCount = product.reviews.size
+                    )
+
+                    Spacer(modifier = Modifier.height(6.dp))
+
+                    PriceRow(
+                        price = product.price,
+                        discountedPrice = product.discountedPrice,
+                        discountPercentage = product.discountPercentage
+                    )
+
+                    Spacer(modifier = Modifier.height(4.dp))
                 }
-                Text(
-                    text = product.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 1,
-                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                RatingRow(
-                    rating = product.rating,
-                    reviewCount = product.reviews.size
-                )
-
-                Spacer(modifier = Modifier.height(6.dp))
-
-                PriceRow(
-                    price = product.price,
-                    discountedPrice = product.discountedPrice,
-                    discountPercentage = product.discountPercentage
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                StockBadge(product = product)
+                Column() {
+                    StockBadge(product = product)
+                }
             }
         }
     }
 }
+
 
 @Composable
 private fun RatingRow(rating: Double, reviewCount: Int) {
