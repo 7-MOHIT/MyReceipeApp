@@ -53,6 +53,7 @@ import com.example.myreceipeapp.data.remote.dto.Products.Product
 import com.example.myreceipeapp.persentation.Components.ErrorMessage
 import com.example.myreceipeapp.persentation.Components.LoadingIndicator
 import com.example.myreceipeapp.persentation.Navigation.HomeRoute
+import com.example.myreceipeapp.persentation.screens.ProductsDetailScreen.TagsSection
 import com.example.myreceipeapp.persentation.screens.home.SearchableTopAppBar
 import com.example.myreceipeapp.ui.theme.myOrange
 import kotlinx.coroutines.launch
@@ -216,7 +217,6 @@ fun ProductItem(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 StockBadge(product = product)
-
             }
         }
     }

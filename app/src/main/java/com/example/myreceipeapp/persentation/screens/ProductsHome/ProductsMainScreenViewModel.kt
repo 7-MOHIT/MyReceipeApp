@@ -65,8 +65,8 @@ class ProductsMainScreenViewModel : ViewModel() {
         } else {
             allProducts.filter {
                 it.title.contains(query, ignoreCase = true)
-                        || it.category.contains(query, ignoreCase = true)
-                        || it.tags.contains(query)
+                        || it.category.contains(query, ignoreCase = true) ||
+                        it.tags.any { tag -> tag.contains(searchQuery, ignoreCase = true) }
             }
         }
     }

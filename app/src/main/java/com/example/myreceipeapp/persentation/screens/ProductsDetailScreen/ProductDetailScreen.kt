@@ -249,7 +249,7 @@ private fun DescriptionSection(product: Product) {
 }
 
 @Composable
-private fun TagsSection(product: Product) {
+ fun TagsSection(product: Product) {
     if (product.tags.isEmpty()) return
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
