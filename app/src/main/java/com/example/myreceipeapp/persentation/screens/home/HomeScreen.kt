@@ -143,8 +143,10 @@ fun HomeScreen(
     onRecipeClick: (Int) -> Unit,
     viewModel: HomeViewModel = viewModel()
 ) {
+    val isSearchActive = viewModel.isSearchActive
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -219,30 +221,33 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.spacedBy(12.dp),
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            item(span = { GridItemSpan(currentLineSpan = maxLineSpan) }) {
-                                // will be shown always.
-                                HomeHeader()
-                            }
-                            if (viewModel.categories.size > 1) {
-                                //only if the no. of categories is greater than 1
+                            if (!isSearchActive) {
                                 item(span = { GridItemSpan(currentLineSpan = maxLineSpan) }) {
-                                    categorySection(
-                                        category = viewModel.categories,
-                                        selected = viewModel.selectedCategory,
-                                        onSelected = viewModel::onCategorySelected
+                                    // will be shown always.
+
+                                    HomeHeader()
+                                }
+
+                                if (viewModel.categories.size > 1) {
+                                    //only if the no. of categories is greater than 1
+                                    item(span = { GridItemSpan(currentLineSpan = maxLineSpan) }) {
+                                        categorySection(
+                                            category = viewModel.categories,
+                                            selected = viewModel.selectedCategory,
+                                            onSelected = viewModel::onCategorySelected
+                                        )
+                                    }
+                                }
+                                item(span = { GridItemSpan(currentLineSpan = maxLineSpan) }) {
+                                    // this will be shown always.
+                                    SectionHeader(
+                                        title =
+                                            if (viewModel.selectedCategory == "All") "All Recipes"
+                                            else viewModel.selectedCategory,
+                                        icon = Icons.Default.Menu
                                     )
                                 }
                             }
-                            item(span = { GridItemSpan(currentLineSpan = maxLineSpan) }) {
-                                // this will be shown always.
-                                SectionHeader(
-                                    title =
-                                        if (viewModel.selectedCategory == "All") "All Recipes"
-                                        else viewModel.selectedCategory,
-                                    icon = Icons.Default.Menu
-                                )
-                            }
-
                             if (viewModel.recipes.isEmpty()) {
                                 item(span = { GridItemSpan(currentLineSpan = maxLineSpan) }) {
                                     Box(
