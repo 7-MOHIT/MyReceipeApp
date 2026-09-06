@@ -91,8 +91,18 @@ class HomeViewModel : ViewModel() {
 
     // now if i want to show  recipes according to the category which user selects.
     private fun applyFilters() {
-        recipes =
-            if (selectedCategory == "All") allRecipes
-            else allRecipes.filter { it.cuisine == selectedCategory }
+        var filtered = allRecipes
+
+        if (selectedCategory != "All") {
+            filtered = filtered.filter { it.cuisine == selectedCategory }
+        }
+
+        if (searchQuery.isNotBlank()) {
+            filtered = filtered.filter {
+                it.name.contains(searchQuery, ignoreCase = true)
+            }
+        }
+
+        recipes = filtered
     }
 }
