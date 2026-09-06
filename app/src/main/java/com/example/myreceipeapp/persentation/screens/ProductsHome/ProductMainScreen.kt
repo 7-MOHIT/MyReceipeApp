@@ -103,14 +103,7 @@ fun ProductMainScreen(
                     },
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )
-                NavigationDrawerItem(
-                    label = { Text("Settings") },
-                    selected = false,
-                    onClick = {
-                        scope.launch { drawerState.close() }
-                    },
-                    modifier = Modifier.padding(horizontal = 12.dp)
-                )
+
             }
         }
     )
