@@ -6,28 +6,39 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
@@ -35,6 +46,8 @@ import com.example.myreceipeapp.data.remote.dto.Products.Product
 import com.example.myreceipeapp.persentation.Components.ErrorMessage
 import com.example.myreceipeapp.persentation.Components.LoadingIndicator
 import com.example.myreceipeapp.ui.theme.myOrange
+import kotlin.math.roundToInt
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,20 +83,15 @@ fun ProductMainScreen(
                 )
 
                 else -> {
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(2),
-                        contentPadding = PaddingValues(
-                            16.dp,
-                        ),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
+                    LazyColumn()
+                    {
                         items(products, key = { it.id }) { product ->
                             ProductItem(
                                 product = product,
-                                { onClick(product.id) }
+                                onClick = { onClick(product.id) }
                             )
                         }
+
                     }
                 }
             }
@@ -98,34 +106,136 @@ fun ProductItem(
 ) {
     Card(
         modifier = Modifier
-            .clickable(onClick = onClick)
+            .padding(8.dp)
             .fillMaxWidth()
-            .padding(4.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-    ) {
-        Column(
+            .clickable(onClick = onClick),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFFEFF5EF),
+            contentColor = Color(0xFF1B5E20)   // dark brown, not pure black — warmer contrast
+    ) ){
+        Row(
             modifier = Modifier.padding(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImage(
                 model = product.thumbnail,
                 contentDescription = product.title,
                 modifier = Modifier
-                    .fillMaxSize()
+                    .size(126.dp)
                     .clip(RoundedCornerShape(8.dp)),
                 contentScale = ContentScale.Crop
             )
-            Spacer(modifier = Modifier.width(12.dp))
-            Column {
+            Spacer(modifier = Modifier.height(12.dp))
+            Column(modifier = Modifier) {
+                product.brand?.let {
+                    Text(
+                        text = it.uppercase(),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
                 Text(
                     text = product.title,
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                 )
+                Spacer(modifier = Modifier.height(4.dp))
+                RatingRow(
+                    rating = product.rating,
+                    reviewCount = product.reviews.size
+                )
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                PriceRow(
+                    price = product.price,
+                    discountedPrice = product.discountedPrice,
+                    discountPercentage = product.discountPercentage
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                StockBadge(product = product)
+
+            }
+        }
+    }
+}
+
+@Composable
+private fun RatingRow(rating: Double, reviewCount: Int) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(
+            imageVector =
+                Icons.Filled.Star,
+            contentDescription = null,
+            tint = Color(0xFFFFA000),
+            modifier = Modifier.size(16.dp)
+        )
+        Spacer(modifier = Modifier.width(2.dp))
+        Text(
+            text = "%.2f".format(rating),
+            style = MaterialTheme.typography.labelMedium,
+            fontWeight = FontWeight.Medium
+        )
+        Spacer(modifier = Modifier.width(4.dp))
+        Text(
+            text = "($reviewCount reviews)",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+}
+
+@Composable
+private fun PriceRow(price: Double, discountedPrice: Double, discountPercentage: Double) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Text(
+            text = "$${"%.2f".format(discountedPrice)}",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary
+        )
+
+        if (discountPercentage > 0) {
+            Spacer(modifier = Modifier.width(6.dp))
+            Text(
+                text = "$${"%.2f".format(price)}",
+                style = MaterialTheme.typography.bodySmall,
+                textDecoration = TextDecoration.LineThrough,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(modifier = Modifier.width(6.dp))
+            Surface(
+                shape = RoundedCornerShape(6.dp),
+                color = MaterialTheme.colorScheme.errorContainer
+            ) {
                 Text(
-                    text = "$${product.price}",
-                    style = MaterialTheme.typography.bodyMedium
+                    text = "-${discountPercentage.roundToInt()}%",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onErrorContainer,
+                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
                 )
             }
         }
     }
 }
+
+@Composable
+private fun StockBadge(product: Product) {
+    val (text, color) = when {
+        product.isOutOfStock -> "Out of stock" to MaterialTheme.colorScheme.error
+        product.isLowStock -> "Only ${product.stock} left" to Color(0xFFF57C00)
+        else -> "In stock" to Color(0xFF2E7D32)
+    }
+    Text(
+        text = text,
+        style = MaterialTheme.typography.labelSmall,
+        color = color,
+        fontWeight = FontWeight.Medium
+    )
+}
+

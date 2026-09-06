@@ -34,9 +34,9 @@ fun RecipeNavHost() {
         composable<ProductMainScreenRoute> {
             ProductMainScreen(onClick = { id ->
                 navController.navigate(
-                    ProductDetailScreenRoute(productId = id)
+                    ProductDetailScreenRoute(id)
                 )
-            })
+            },)
         }
         composable<ProductDetailScreenRoute> { backStackEntry ->
             val detailRoute = backStackEntry.toRoute<ProductDetailScreenRoute>()
