@@ -24,23 +24,33 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.RestaurantMenu
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarOutline
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,103 +63,174 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
 import com.example.myreceipeapp.data.remote.dto.Recipes.RecipeDTO
 import com.example.myreceipeapp.persentation.Components.ErrorMessage
 import com.example.myreceipeapp.persentation.Components.LoadingIndicator
+import com.example.myreceipeapp.persentation.Navigation.ProductMainScreenRoute
+import com.example.myreceipeapp.persentation.screens.ProductsHome.ProductMainScreen
 import com.example.myreceipeapp.persentation.screens.home.HomeViewModel
 import com.example.myreceipeapp.ui.theme.myOrange
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    navController: NavController,
     onRecipeClick: (Int) -> Unit,
     viewModel: HomeViewModel = viewModel()
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Recipes",
-                        fontWeight = FontWeight.Bold
-                    )
-                })
-        }) { innerPadding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = myOrange.copy(alpha = 0.05f))
-                .padding(
-                    innerPadding
-                )
-        ) {
-            when {
-                viewModel.isLoading -> LoadingIndicator(1.dp)
-                viewModel.errorMessage != null -> ErrorMessage(
-                    errorMessage = viewModel.errorMessage,
-                    viewModel = viewModel,
-                    onRetry = { viewModel.fetchRecipes() }
-                )
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
 
-                else -> {
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(2),
-                        contentPadding = PaddingValues(
-                            16.dp,
-                        ),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        item(span = { GridItemSpan(currentLineSpan = maxLineSpan) }) {
-                            // will be shown always.
-                            HomeHeader()
-                        }
-                        if (viewModel.categories.size > 1) {
-                            //only if the no. of categories is greater than 1
-                            item(span = { GridItemSpan(currentLineSpan = maxLineSpan) }) {
-                                categorySection(
-                                    category = viewModel.categories,
-                                    selected = viewModel.selectedCategory,
-                                    onSelected = viewModel::onCategorySelected
-                                )
-                            }
-                        }
-                        item(span = { GridItemSpan(currentLineSpan = maxLineSpan) }) {
-                            // this will be shown always.
-                            SectionHeader(
-                                title =
-                                    if (viewModel.selectedCategory == "All") "All Recipes"
-                                    else viewModel.selectedCategory,
-                                icon = Icons.Default.Menu
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "DUMMY JSON DATA",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(16.dp)
+                )
+                HorizontalDivider(modifier = Modifier.padding(bottom = 2.dp))
+
+                NavigationDrawerItem(
+                    label = { Text("RECIPES") },
+                    selected = true,
+                    onClick = {
+                        scope.launch { drawerState.close() }
+                    },
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                )
+                NavigationDrawerItem(
+                    label = { Text("PRODUCTS") },
+                    selected = false,
+                    onClick = {
+                        scope.launch {
+                            navController.navigate(ProductMainScreenRoute)
+                            drawerState.close() }
+                    },
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                )
+                NavigationDrawerItem(
+                    label = { Text("Settings") },
+                    selected = false,
+                    onClick = {
+                        scope.launch { drawerState.close() }
+                    },
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                )
+            }
+        }
+    ) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = "Recipes",
+                            fontWeight = FontWeight.Bold
+                        )
+                    },
+                    navigationIcon = {
+
+                        IconButton(onClick = {scope.launch { drawerState.open()} }) {
+                            Icon(
+                                imageVector = Icons.Default.Menu,
+                                contentDescription = "Menu"
                             )
                         }
+                    },
+                    actions = {
+                        IconButton(onClick = { }) {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = "Search"
+                            )
+                        }
+                    },
 
-                        if (viewModel.recipes.isEmpty()) {
+                    )
+            }
+        ) { innerPadding ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = myOrange.copy(alpha = 0.05f))
+                    .padding(
+                        innerPadding
+                    )
+            ) {
+                when {
+                    viewModel.isLoading -> LoadingIndicator(1.dp)
+                    viewModel.errorMessage != null -> ErrorMessage(
+                        errorMessage = viewModel.errorMessage,
+                        viewModel = viewModel,
+                        onRetry = { viewModel.fetchRecipes() }
+                    )
+
+                    else -> {
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(2),
+                            contentPadding = PaddingValues(
+                                16.dp,
+                            ),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
                             item(span = { GridItemSpan(currentLineSpan = maxLineSpan) }) {
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 48.dp),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = "No Recipes Found",
-                                        fontSize = 20.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = myOrange
+                                // will be shown always.
+                                HomeHeader()
+                            }
+                            if (viewModel.categories.size > 1) {
+                                //only if the no. of categories is greater than 1
+                                item(span = { GridItemSpan(currentLineSpan = maxLineSpan) }) {
+                                    categorySection(
+                                        category = viewModel.categories,
+                                        selected = viewModel.selectedCategory,
+                                        onSelected = viewModel::onCategorySelected
                                     )
                                 }
                             }
-                        } else {
-                            items(viewModel.recipes, key = { it.id }) { recipe ->
-                                RecipeCard(
-                                    recipe,
-                                    onClick = {
-                                        Log.d("msg", "moving to detail screen.")
-                                        onRecipeClick(recipe.id)
-                                    }
+                            item(span = { GridItemSpan(currentLineSpan = maxLineSpan) }) {
+                                // this will be shown always.
+                                SectionHeader(
+                                    title =
+                                        if (viewModel.selectedCategory == "All") "All Recipes"
+                                        else viewModel.selectedCategory,
+                                    icon = Icons.Default.Menu
                                 )
+                            }
+
+                            if (viewModel.recipes.isEmpty()) {
+                                item(span = { GridItemSpan(currentLineSpan = maxLineSpan) }) {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(vertical = 48.dp),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(
+                                            text = "No Recipes Found",
+                                            fontSize = 20.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = myOrange
+                                        )
+                                    }
+                                }
+                            } else {
+                                items(viewModel.recipes, key = { it.id }) { recipe ->
+                                    RecipeCard(
+                                        recipe,
+                                        onClick = {
+                                            Log.d("msg", "moving to detail screen.")
+                                            onRecipeClick(recipe.id)
+                                        }
+                                    )
+                                }
                             }
                         }
                     }
@@ -244,17 +325,21 @@ fun RecipeCard(
                 }
             }
             Column(modifier = Modifier.padding(8.dp)) {
-                Row(verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
                     Text(
                         text = "Rating : ${recipe.rating}",
                         fontSize = 14.sp,
                         color = Color.Black,
                         fontWeight = FontWeight.SemiBold
                     )
-                    Icon(Icons.Default.StarOutline,
+                    Icon(
+                        Icons.Default.StarOutline,
                         contentDescription = "Star",
-                        Modifier.size(15.dp))
+                        Modifier.size(15.dp)
+                    )
                 }
                 Text(
                     text = "ReviesCount : ${recipe.reviewCount}",
