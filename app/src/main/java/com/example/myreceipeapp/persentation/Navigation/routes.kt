@@ -4,6 +4,8 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 
 @Serializable
+object SplashRoute
+@Serializable
 object HomeRoute {
 
 }
