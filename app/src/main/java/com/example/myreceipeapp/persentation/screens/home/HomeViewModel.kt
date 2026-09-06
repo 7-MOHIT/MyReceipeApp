@@ -39,6 +39,11 @@ class HomeViewModel : ViewModel() {
     var selectedCategory by mutableStateOf("All")
         private set
 
+    var searchQuery by mutableStateOf("")
+        private set
+
+    var isSearchActive by mutableStateOf(false)
+        private set
     // to store all the recipes, if not a empty list will be shown.
     private var allRecipes: List<RecipeDTO> = emptyList()
     init {
@@ -70,6 +75,18 @@ class HomeViewModel : ViewModel() {
     fun onCategorySelected(category: String) {
         selectedCategory = category
         applyFilters()
+    }
+    fun onSearchQueryChange(query: String) {
+        searchQuery = query
+        applyFilters()
+    }
+
+    fun onSearchToggle(active: Boolean) {
+        isSearchActive = active
+        if (!active) {
+            searchQuery = ""
+            applyFilters()
+        }
     }
 
     // now if i want to show  recipes according to the category which user selects.
