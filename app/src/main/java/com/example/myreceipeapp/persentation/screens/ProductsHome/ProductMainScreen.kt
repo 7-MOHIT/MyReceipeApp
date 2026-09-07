@@ -53,7 +53,9 @@ import coil.compose.AsyncImage
 import com.example.myreceipeapp.data.remote.dto.Products.Product
 import com.example.myreceipeapp.persentation.Components.ErrorMessage
 import com.example.myreceipeapp.persentation.Components.LoadingIndicator
+import com.example.myreceipeapp.persentation.Navigation.CartScreenRoute
 import com.example.myreceipeapp.persentation.Navigation.HomeRoute
+import com.example.myreceipeapp.persentation.Navigation.ProductMainScreenRoute
 import com.example.myreceipeapp.persentation.screens.ProductsDetailScreen.TagsSection
 import com.example.myreceipeapp.persentation.screens.home.SearchableTopAppBar
 import com.example.myreceipeapp.ui.theme.myOrange
@@ -107,6 +109,18 @@ fun ProductMainScreen(
                     },
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )
+                NavigationDrawerItem(
+                    label = { Text("CARTS") },
+                    selected = false,
+                    onClick = {
+                        scope.launch {
+                            navController.navigate(CartScreenRoute)
+                            drawerState.close()
+                        }
+                    },
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                )
+
 
             }
         }
