@@ -1,5 +1,8 @@
 package com.example.myreceipeapp.data.remote.dto.Carts
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Cart(
     val discountedTotal: Double,
     val id: Int,
@@ -9,12 +12,14 @@ data class Cart(
     val totalQuantity: Int,
     val userId: Int
 )
+@Serializable
 data class CartResponse(
     val carts: List<Cart>,
     val limit: Int,
     val skip: Int,
     val total: Int
 )
+@Serializable
 data class Product(
     val discountPercentage: Double,
     val discountedTotal: Double,
