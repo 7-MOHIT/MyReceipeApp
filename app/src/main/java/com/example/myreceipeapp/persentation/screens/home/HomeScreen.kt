@@ -71,6 +71,7 @@ import coil.compose.SubcomposeAsyncImage
 import com.example.myreceipeapp.data.remote.dto.Recipes.RecipeDTO
 import com.example.myreceipeapp.persentation.Components.ErrorMessage
 import com.example.myreceipeapp.persentation.Components.LoadingIndicator
+import com.example.myreceipeapp.persentation.Navigation.CartScreenRoute
 import com.example.myreceipeapp.persentation.Navigation.ProductMainScreenRoute
 import com.example.myreceipeapp.ui.theme.myOrange
 import kotlinx.coroutines.launch
@@ -182,6 +183,17 @@ fun HomeScreen(
                     onClick = {
                         scope.launch {
                             navController.navigate(ProductMainScreenRoute)
+                            drawerState.close()
+                        }
+                    },
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                )
+                NavigationDrawerItem(
+                    label = { Text("CARTS") },
+                    selected = false,
+                    onClick = {
+                        scope.launch {
+                            navController.navigate(CartScreenRoute)
                             drawerState.close()
                         }
                     },
