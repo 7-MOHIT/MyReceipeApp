@@ -53,11 +53,11 @@ import coil.compose.AsyncImage
 import com.example.myreceipeapp.data.remote.dto.Products.Product
 import com.example.myreceipeapp.persentation.Components.ErrorMessage
 import com.example.myreceipeapp.persentation.Components.LoadingIndicator
+import com.example.myreceipeapp.persentation.Components.SearchableTopAppBar
 import com.example.myreceipeapp.persentation.Navigation.CartScreenRoute
 import com.example.myreceipeapp.persentation.Navigation.HomeRoute
 import com.example.myreceipeapp.persentation.Navigation.ProductMainScreenRoute
 import com.example.myreceipeapp.persentation.screens.ProductsDetailScreen.TagsSection
-import com.example.myreceipeapp.persentation.screens.home.SearchableTopAppBar
 import com.example.myreceipeapp.ui.theme.myOrange
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -125,7 +125,6 @@ fun ProductMainScreen(
             }
         }
     )
-
     {
         Scaffold(
             topBar = {

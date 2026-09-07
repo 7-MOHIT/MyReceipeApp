@@ -17,8 +17,8 @@ fun RecipeNavHost() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-//        startDestination = ProductMainScreenRoute
-        startDestination = SplashRoute
+        startDestination = CartScreenRoute
+//        startDestination = SplashRoute
     ) {
         composable<SplashRoute> {
             SplashScreen(onTimeout = {

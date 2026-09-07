@@ -71,73 +71,13 @@ import coil.compose.SubcomposeAsyncImage
 import com.example.myreceipeapp.data.remote.dto.Recipes.RecipeDTO
 import com.example.myreceipeapp.persentation.Components.ErrorMessage
 import com.example.myreceipeapp.persentation.Components.LoadingIndicator
+import com.example.myreceipeapp.persentation.Components.SearchableTopAppBar
 import com.example.myreceipeapp.persentation.Navigation.CartScreenRoute
 import com.example.myreceipeapp.persentation.Navigation.ProductMainScreenRoute
 import com.example.myreceipeapp.ui.theme.myOrange
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SearchableTopAppBar(
-    title: String,
-    isSearchActive: Boolean,
-    searchQuery: String,
-    onSearchQueryChange: (String) -> Unit,
-    onSearchToggle: (Boolean) -> Unit,
-    onMenuClick: () -> Unit
-) {
-    TopAppBar(
-        title = {
-            if (isSearchActive) {
-                TextField(
-                    value = searchQuery,
-                    onValueChange = onSearchQueryChange,
-                    placeholder = { Text("Search $title...") },
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                    colors = TextFieldDefaults.colors(
-                        unfocusedContainerColor = Color.Transparent,
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent
-                    )
-                )
-            } else {
-                Text(text = title, fontWeight = FontWeight.Bold)
-            }
-        },
-        navigationIcon = {
-            IconButton(onClick = {
-                if (isSearchActive) {
-                    onSearchToggle(false)
-                    onSearchQueryChange("")
-                } else {
-                    onMenuClick()
-                }
-            }) {
-                Icon(
-                    imageVector = if (isSearchActive) {
-                        Icons.Default.ArrowBack
-                    } else Icons.Default.Menu,
-                    contentDescription = if (isSearchActive) "Close search" else "Menu"
-                )
-            }
-        },
-        actions = {
-            if (isSearchActive) {
-                if (searchQuery.isNotEmpty()) {
-                    IconButton(onClick = { onSearchQueryChange("") }) {
-                        Icon(Icons.Default.Clear, contentDescription = "Clear")
-                    }
-                }
-            } else {
-                IconButton(onClick = { onSearchToggle(true) }) {
-                    Icon(Icons.Default.Search, contentDescription = "Search")
-                }
-            }
-        }
-    )
-}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
