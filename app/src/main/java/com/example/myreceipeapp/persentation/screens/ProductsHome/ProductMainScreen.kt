@@ -88,7 +88,7 @@ fun ProductMainScreen(
 
                 NavigationDrawerItem(
                     label = { Text("RECIPES") },
-                    selected = true,
+                    selected = false,
                     onClick = {
                         scope.launch {
                             navController.navigate(HomeRoute)
@@ -99,7 +99,7 @@ fun ProductMainScreen(
                 )
                 NavigationDrawerItem(
                     label = { Text("PRODUCTS") },
-                    selected = false,
+                    selected = true,
                     onClick = {
                         scope.launch {
                             drawerState.close()
