@@ -186,7 +186,10 @@ fun ProductItem(
             )
             Spacer(modifier = Modifier.height(12.dp))
             Row() {
-                Column(modifier = Modifier.weight(1f)) {
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.SpaceBetween
+                ) {
                     product.brand?.let {
                         Text(
                             text = it.uppercase(),
@@ -217,6 +220,7 @@ fun ProductItem(
                     )
 
                     Spacer(modifier = Modifier.height(4.dp))
+                    TagsSection(product)
                 }
                 Column() {
                     StockBadge(product = product)
