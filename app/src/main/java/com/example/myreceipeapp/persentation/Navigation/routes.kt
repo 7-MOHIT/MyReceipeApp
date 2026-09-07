@@ -23,3 +23,6 @@ object ProductMainScreenRoute{
 data class ProductDetailScreenRoute(val productId :Int){
 
 }
+@Serializable
+object CartScreenRoute
+
