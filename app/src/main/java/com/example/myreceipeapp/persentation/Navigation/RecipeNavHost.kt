@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.example.myreceipeapp.persentation.screens.CartMainScreen.CartMainScreen
 import com.example.myreceipeapp.persentation.screens.ProductsDetailScreen.ProductDetailScreen
 import com.example.myreceipeapp.persentation.screens.ProductsHome.ProductMainScreen
 import com.example.myreceipeapp.persentation.screens.Splash.SplashScreen
@@ -29,11 +30,12 @@ fun RecipeNavHost() {
         composable<HomeRoute> {
             HomeScreen(
                 onRecipeClick = { id ->
-                navController.navigate(
-                    RecipeDetailRoute(recipeId = id)
-                )
-            },
-                navController = navController)
+                    navController.navigate(
+                        RecipeDetailRoute(recipeId = id)
+                    )
+                },
+                navController = navController
+            )
         }
         composable<RecipeDetailRoute> { backStackEntry ->
             val detailRoute = backStackEntry.toRoute<RecipeDetailRoute>()
@@ -56,6 +58,9 @@ fun RecipeNavHost() {
             ProductDetailScreen(
                 detailRoute.productId,
                 onBack = { navController.popBackStack() })
+        }
+        composable<CartScreenRoute> {
+            CartMainScreen(navController = navController)
         }
     }
 }
