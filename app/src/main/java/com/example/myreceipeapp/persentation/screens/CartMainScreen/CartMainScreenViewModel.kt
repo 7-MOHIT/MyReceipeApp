@@ -27,6 +27,14 @@ class CartMainScreenViewModel : ViewModel() {
         private set
     var cartItems by mutableStateOf<List<Cart>>(emptyList())
         private set
+    var searchQuery by mutableStateOf("")
+        private set
+
+    var isSearchActive by mutableStateOf(false)
+        private set
+
+    // original unfiltered data, filtering ke liye reference
+    private var allCarts: List<Cart> = emptyList()
 
 
     fun fetchCart(userId: Int) {
@@ -42,4 +50,30 @@ class CartMainScreenViewModel : ViewModel() {
             }
         }
     }
+
+    fun onSearchQueryChange(query: String) {
+        searchQuery = query
+        applyFilters()
+    }
+
+    fun onSearchToggle(active: Boolean) {
+        isSearchActive = active
+        if (!active) {
+            searchQuery = ""
+            applyFilters()
+        }
+    }
+
+    private fun applyFilters() {
+        cartItems = if (searchQuery.isBlank()) {
+            allCarts
+        } else {
+            allCarts.filter { cart ->
+                cart.products.any { product ->
+                    product.title.contains(searchQuery, ignoreCase = true)
+                }
+            }
+        }
+    }
+
 }
