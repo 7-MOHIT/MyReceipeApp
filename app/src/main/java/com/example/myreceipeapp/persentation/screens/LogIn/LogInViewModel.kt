@@ -1,9 +1,12 @@
 package com.example.myreceipeapp.persentation.screens.LogIn
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 
 data class LoginUiState(
@@ -27,10 +30,13 @@ class LogInViewModel : ViewModel() {
     fun onPasswordChange(value: String) {
         _uiState.update { it.copy(password = value, passwordError = null, generalError = null) }
     }
+
     fun login() {
         val state = _uiState.value
         val emailError = if (!android.util.Patterns.EMAIL_ADDRESS.matcher(
-                state.email).matches()) {
+                state.email
+            ).matches()
+        ) {
             "Enter a valid email"
         } else {
             null
@@ -49,6 +55,22 @@ class LogInViewModel : ViewModel() {
                 )
             }
             return
+        }
+
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) }
+            delay(1200)
+            val loginWorked = true
+            if (loginWorked) {
+                _uiState.update { it.copy(isLoading = false, isLoginSuccessful = true) }
+            } else {
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        generalError = "Invalid email or password"
+                    )
+                }
+            }
         }
     }
 }
