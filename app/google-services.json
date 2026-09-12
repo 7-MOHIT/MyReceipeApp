@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "278381380261",
+    "project_id": "dummyjson-3811f",
+    "storage_bucket": "dummyjson-3811f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278381380261:android:3f47cfa0879b9d4fa3834c",
+        "android_client_info": {
+          "package_name": "com.example.myreceipeapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTrvPLcEEQ5Ujfg9Z--oXY9OfRGe2K8X8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
