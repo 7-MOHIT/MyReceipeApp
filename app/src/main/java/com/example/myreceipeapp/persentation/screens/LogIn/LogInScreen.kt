@@ -58,14 +58,6 @@ fun LogInScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
-                        MaterialTheme.colorScheme.background
-                    )
-                )
-            )
     ) {
         Column(
             modifier = Modifier
