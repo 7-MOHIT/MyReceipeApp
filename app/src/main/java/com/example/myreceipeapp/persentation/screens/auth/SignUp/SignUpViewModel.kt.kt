@@ -1,5 +1,6 @@
-package com.example.myreceipeapp.persentation.screens.SignUp
+package com.example.myreceipeapp.persentation.screens.auth.SignUp
 
+import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
@@ -53,7 +54,7 @@ class SignUpViewModel : ViewModel() {
         val state = _uiState.value
 
         val nameError = if (state.name.isBlank()) "Name is required" else null
-        val emailError = if (!android.util.Patterns.EMAIL_ADDRESS.matcher(state.email).matches())
+        val emailError = if (!Patterns.EMAIL_ADDRESS.matcher(state.email).matches())
             "Enter a valid email" else null
         val passwordError = if (state.password.length < 6)
             "Password must be at least 6 characters" else null

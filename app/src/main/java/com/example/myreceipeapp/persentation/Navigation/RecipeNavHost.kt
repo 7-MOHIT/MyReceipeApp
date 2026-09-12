@@ -6,10 +6,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.myreceipeapp.persentation.screens.CartMainScreen.CartMainScreen
-import com.example.myreceipeapp.persentation.screens.LogIn.LogInScreen
+import com.example.myreceipeapp.persentation.screens.auth.LogIn.LogInScreen
 import com.example.myreceipeapp.persentation.screens.ProductsDetailScreen.ProductDetailScreen
 import com.example.myreceipeapp.persentation.screens.ProductsHome.ProductMainScreen
-import com.example.myreceipeapp.persentation.screens.SignUp.SignUpScreen
+import com.example.myreceipeapp.persentation.screens.auth.SignUp.SignUpScreen
 import com.example.myreceipeapp.persentation.screens.Splash.SplashScreen
 import com.example.myreceipeapp.persentation.screens.home.HomeScreen
 import com.example.myreceipeapp.persentation.screens.recipeDetail.RecipeDetailScreen

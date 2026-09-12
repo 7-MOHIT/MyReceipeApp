@@ -1,5 +1,6 @@
-package com.example.myreceipeapp.persentation.screens.LogIn
+package com.example.myreceipeapp.persentation.screens.auth.LogIn
 
+import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
@@ -33,7 +34,7 @@ class LogInViewModel : ViewModel() {
 
     fun login() {
         val state = _uiState.value
-        val emailError = if (!android.util.Patterns.EMAIL_ADDRESS.matcher(
+        val emailError = if (!Patterns.EMAIL_ADDRESS.matcher(
                 state.email
             ).matches()
         ) {
