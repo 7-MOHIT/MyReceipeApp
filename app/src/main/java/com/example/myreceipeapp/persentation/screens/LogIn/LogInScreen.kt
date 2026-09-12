@@ -75,18 +75,15 @@ fun LogInScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = "🍳",
-                fontSize = 48.sp
-            )
+
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = "Welcome Back",
+                text = "Welcome ",
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
             Text(
-                text = "Login to explore delicious recipes",
+                text = "Login to explore ",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
