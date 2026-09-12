@@ -21,12 +21,13 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 
 @Composable
 fun SignUpScreen(
-    viewModel: SignUpViewModel = viewModel(),
+    viewModel: SignUpViewModel = hiltViewModel(),
     onSignUpSuccess: () -> Unit,
     onNavigateToLogin: () -> Unit
 ) {
