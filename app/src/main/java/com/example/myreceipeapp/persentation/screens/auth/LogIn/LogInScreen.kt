@@ -157,7 +157,10 @@ fun LogInScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Don't have an account? ", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(
+                    "Don't have an account? ",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
                 TextButton(onClick = onNavigateToSignUp) {
                     Text("Sign Up")
                 }
@@ -166,5 +169,4 @@ fun LogInScreen(
     }
 }
 
-// Simple helper so the column scrolls on small screens without extra imports clutter above
 private fun Modifier.verticalScrollPadding(): Modifier = this

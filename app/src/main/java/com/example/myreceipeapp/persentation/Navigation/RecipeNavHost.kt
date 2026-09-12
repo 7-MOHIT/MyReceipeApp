@@ -19,7 +19,7 @@ fun RecipeNavHost() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = LoginScreenRoute
+        startDestination = HomeRoute
     ) {
         composable<SplashRoute> {
             SplashScreen(onTimeout = {
@@ -65,12 +65,22 @@ fun RecipeNavHost() {
         }
         composable<LoginScreenRoute> {
             LogInScreen(
-                onLoginSuccess = {},
+                onLoginSuccess = {
+                    navController.navigate(HomeRoute) {
+                        popUpTo(LoginScreenRoute) { inclusive = true }
+                        popUpTo(SignUpScreenRoute) { inclusive = true }
+                    }
+                },
                 onNavigateToSignUp = { navController.navigate(SignUpScreenRoute) })
         }
         composable<SignUpScreenRoute> {
             SignUpScreen(
-                onSignUpSuccess = {},
+                onSignUpSuccess = {
+                    navController.navigate(HomeRoute) {
+                        popUpTo(LoginScreenRoute) { inclusive = true }
+                        popUpTo(SignUpScreenRoute) { inclusive = true }
+                    }
+                },
                 onNavigateToLogin = { navController.navigate(LoginScreenRoute) })
         }
 
