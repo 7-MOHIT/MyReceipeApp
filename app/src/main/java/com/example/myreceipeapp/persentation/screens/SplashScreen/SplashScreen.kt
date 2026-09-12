@@ -42,6 +42,7 @@ fun SplashScreen(
         startAnimation = true
         delay(1800L)
         onTimeout()
+
     }
 
     Box(

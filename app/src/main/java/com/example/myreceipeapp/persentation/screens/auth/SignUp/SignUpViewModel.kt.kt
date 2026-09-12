@@ -3,11 +3,14 @@ package com.example.myreceipeapp.persentation.screens.auth.SignUp
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myreceipeapp.domain.Repository.Auth.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class SignUpUiState(
     val name: String = "",
@@ -23,7 +26,10 @@ data class SignUpUiState(
     val isSignUpSuccessful: Boolean = false
 )
 
-class SignUpViewModel : ViewModel() {
+@HiltViewModel
+class SignUpViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SignUpUiState())
     val uiState: StateFlow<SignUpUiState> = _uiState
@@ -75,18 +81,19 @@ class SignUpViewModel : ViewModel() {
 
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            delay(1200)
-            val signUpWorked = true
-            if (signUpWorked) {
-                _uiState.update { it.copy(isLoading = false, isSignUpSuccessful = true) }
-            } else {
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        generalError = "Sign up failed. Try again."
-                    )
+
+            authRepository.signUp(state.email, state.password)
+                .onSuccess {
+                    _uiState.update { it.copy(isLoading = false, isSignUpSuccessful = true) }
                 }
-            }
+                .onFailure { exception ->
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            generalError = exception.message ?: "Sign up failed. Try again."
+                        )
+                    }
+                }
         }
     }
 }
