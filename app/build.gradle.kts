@@ -45,6 +45,7 @@ android {
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.9.0")
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     implementation(libs.room.runtime)
