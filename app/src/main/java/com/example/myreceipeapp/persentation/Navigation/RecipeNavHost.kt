@@ -1,6 +1,7 @@
 package com.example.myreceipeapp.persentation.Navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -11,6 +12,7 @@ import com.example.myreceipeapp.persentation.screens.ProductsDetailScreen.Produc
 import com.example.myreceipeapp.persentation.screens.ProductsHome.ProductMainScreen
 import com.example.myreceipeapp.persentation.screens.auth.SignUp.SignUpScreen
 import com.example.myreceipeapp.persentation.screens.Splash.SplashScreen
+import com.example.myreceipeapp.persentation.screens.auth.AuthViewModel
 import com.example.myreceipeapp.persentation.screens.home.HomeScreen
 import com.example.myreceipeapp.persentation.screens.recipeDetail.RecipeDetailScreen
 
@@ -19,12 +21,18 @@ fun RecipeNavHost() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = HomeRoute
+        startDestination = SplashRoute
     ) {
         composable<SplashRoute> {
+            val authViewModel: AuthViewModel = hiltViewModel()
             SplashScreen(onTimeout = {
-                navController.navigate(HomeRoute) {
-                    popUpTo("splash") { inclusive = true }
+                val destination = if (authViewModel.isUserLoggedIn()) {
+                    HomeRoute
+                } else {
+                    LoginScreenRoute
+                }
+                navController.navigate(destination) {
+                    popUpTo(SplashRoute) { inclusive = true }
                 }
             })
         }
