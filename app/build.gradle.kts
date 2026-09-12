@@ -45,6 +45,8 @@ android {
 }
 
 dependencies {
+    implementation("com.google.dagger:hilt-android:2.56.2")
+    ksp("com.google.dagger:hilt-android-compiler:2.56.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.9.0")
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
