@@ -28,6 +28,8 @@ class LogInViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState
 
+    fun isUserLoggedIn(): Boolean = authRepository.getCurrentUser() != null
+
     fun onEmailChange(value: String) {
         _uiState.update { it.copy(email = value, emailError = null, generalError = null) }
     }
