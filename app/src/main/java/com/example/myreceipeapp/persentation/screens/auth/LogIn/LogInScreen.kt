@@ -40,10 +40,11 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun LogInScreen(
-    viewModel: LogInViewModel = viewModel(),
+    viewModel: LogInViewModel = hiltViewModel(),
     onLoginSuccess: () -> Unit,
     onNavigateToSignUp: () -> Unit
 ) {
