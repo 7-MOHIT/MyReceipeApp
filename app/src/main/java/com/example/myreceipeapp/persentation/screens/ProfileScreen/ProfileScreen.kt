@@ -27,6 +27,7 @@ import androidx.navigation.NavController
 import androidx.room.util.TableInfo
 import com.example.myreceipeapp.persentation.Components.SearchableTopAppBar
 import com.example.myreceipeapp.persentation.Navigation.CartScreenRoute
+import com.example.myreceipeapp.persentation.Navigation.HomeRoute
 import com.example.myreceipeapp.persentation.Navigation.ProductMainScreenRoute
 import com.example.myreceipeapp.persentation.screens.home.DrawerTop
 import com.example.myreceipeapp.ui.theme.myOrange
@@ -50,12 +51,13 @@ fun ProfileScreen(navController: NavController) {
                     label = {
                         Text(
                             "RECIPES",
-                            color = myOrange
                         )
                     },
-                    selected = true,
+                    selected = false,
                     onClick = {
-                        scope.launch { drawerState.close() }
+                        scope.launch {
+                            navController.navigate(HomeRoute)
+                            drawerState.close() }
                     },
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )

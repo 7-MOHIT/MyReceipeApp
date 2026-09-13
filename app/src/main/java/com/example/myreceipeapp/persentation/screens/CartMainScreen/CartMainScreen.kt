@@ -3,6 +3,7 @@ package com.example.myreceipeapp.persentation.screens.CartMainScreen
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -34,6 +35,7 @@ import com.example.myreceipeapp.persentation.Components.SearchableTopAppBar
 import com.example.myreceipeapp.persentation.Navigation.CartScreenRoute
 import com.example.myreceipeapp.persentation.Navigation.HomeRoute
 import com.example.myreceipeapp.persentation.Navigation.ProductMainScreenRoute
+import com.example.myreceipeapp.persentation.screens.home.DrawerTop
 import com.example.myreceipeapp.ui.theme.myOrange
 import kotlinx.coroutines.launch
 
@@ -52,14 +54,9 @@ fun CartMainScreen(
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet(modifier = Modifier.width(250.dp)) {
+            ModalDrawerSheet(modifier = Modifier.fillMaxWidth(0.65f)) {
                 Spacer(modifier = Modifier.height(12.dp))
-                Text(
-                    text = "DUMMY JSON DATA",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(16.dp)
-                )
+                DrawerTop(navController)
                 HorizontalDivider(modifier = Modifier.padding(bottom = 2.dp))
 
                 NavigationDrawerItem(
