@@ -55,6 +55,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -78,40 +79,58 @@ import com.example.myreceipeapp.persentation.Navigation.CartScreenRoute
 import com.example.myreceipeapp.persentation.Navigation.ProductMainScreenRoute
 import com.example.myreceipeapp.persentation.Navigation.ProfileScreenRoute
 import com.example.myreceipeapp.ui.theme.myOrange
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 
 @Composable
-fun DrawerTop(navController: NavController){
-    Row(
-        modifier = Modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
-    ) {
+fun DrawerTop(navController: NavController) {
+    val userName = remember {
+        FirebaseAuth.getInstance().currentUser?.displayName ?: "User"
+    }
+    Column() {
+        Row(
+            modifier = Modifier,
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        )
+        {
+            Text(
+                text = userName,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(16.dp)
+            )
+            Box(
+                modifier = Modifier
+                    .padding(end = 10.dp)
+                    .clickable(onClick = {
+                        navController.navigate(
+                            ProfileScreenRoute
+                        )
+                    })
+                    .size(30.dp)
+                    .clip(shape = CircleShape)
+                    .background(color = myOrange),
+                contentAlignment = Alignment.Center,
+
+                ) {
+                Icon(
+                    Icons.Default.Person,
+                    contentDescription = "Profile",
+                    modifier = Modifier.size(25.dp)
+                )
+            }
+        }
         Text(
-            text = "DUMMY JSON DATA",
+            text = "Dummy Json Data",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(16.dp)
         )
-        Box(
-            modifier = Modifier.padding(end = 10.dp).clickable(onClick = {navController.navigate(
-                ProfileScreenRoute
-            )})
-                .size(30.dp)
-                .clip(shape = CircleShape).
-                background(color =myOrange),
-            contentAlignment = Alignment.Center,
-
-        ) {
-            Icon(
-                Icons.Default.Person,
-                contentDescription = "Profile",
-                modifier = Modifier.size(25.dp)
-            )
-        }
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -139,8 +158,12 @@ fun HomeScreen(
                 HorizontalDivider(modifier = Modifier.padding(bottom = 2.dp))
 
                 NavigationDrawerItem(
-                    label = { Text("RECIPES",
-                        color = myOrange) },
+                    label = {
+                        Text(
+                            "RECIPES",
+                            color = myOrange
+                        )
+                    },
                     selected = true,
                     onClick = {
                         scope.launch { drawerState.close() }
