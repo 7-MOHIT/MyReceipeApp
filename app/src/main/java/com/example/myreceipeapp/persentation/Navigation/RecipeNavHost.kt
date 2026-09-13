@@ -10,6 +10,7 @@ import com.example.myreceipeapp.persentation.screens.CartMainScreen.CartMainScre
 import com.example.myreceipeapp.persentation.screens.auth.LogIn.LogInScreen
 import com.example.myreceipeapp.persentation.screens.ProductsDetailScreen.ProductDetailScreen
 import com.example.myreceipeapp.persentation.screens.ProductsHome.ProductMainScreen
+import com.example.myreceipeapp.persentation.screens.ProfileScreen.ProfileScreen
 import com.example.myreceipeapp.persentation.screens.auth.SignUp.SignUpScreen
 import com.example.myreceipeapp.persentation.screens.Splash.SplashScreen
 import com.example.myreceipeapp.persentation.screens.auth.AuthViewModel
@@ -91,6 +92,8 @@ fun RecipeNavHost() {
                 },
                 onNavigateToLogin = { navController.navigate(LoginScreenRoute) })
         }
-
+        composable<ProfileScreenRoute> {
+            ProfileScreen(navController)
+        }
     }
 }

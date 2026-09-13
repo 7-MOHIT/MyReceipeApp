@@ -17,7 +17,8 @@ object SignUpScreenRoute
 object HomeRoute {
 
 }
-
+@Serializable
+object ProfileScreenRoute
 
 @Serializable
 data class RecipeDetailRoute(val recipeId: Int) {
