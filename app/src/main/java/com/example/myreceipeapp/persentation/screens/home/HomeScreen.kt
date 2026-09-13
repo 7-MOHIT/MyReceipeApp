@@ -95,12 +95,6 @@ fun DrawerTop(navController: NavController) {
             horizontalArrangement = Arrangement.Center
         )
         {
-            Text(
-                text = userName,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(16.dp)
-            )
             Box(
                 modifier = Modifier
                     .padding(end = 10.dp)
@@ -121,6 +115,12 @@ fun DrawerTop(navController: NavController) {
                     modifier = Modifier.size(25.dp)
                 )
             }
+            Text(
+                text = userName,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(16.dp)
+            )
         }
         Text(
             text = "Dummy Json Data",
