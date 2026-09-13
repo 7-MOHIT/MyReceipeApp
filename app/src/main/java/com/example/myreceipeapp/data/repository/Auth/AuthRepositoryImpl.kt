@@ -3,6 +3,7 @@ package com.example.myreceipeapp.data.repository.Auth
 import com.example.myreceipeapp.domain.Repository.Auth.AuthRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.userProfileChangeRequest
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -10,13 +11,22 @@ class AuthRepositoryImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth
 ) : AuthRepository {
 
-    override suspend fun signUp(email: String, password: String): Result<FirebaseUser> {
+    override suspend fun signUp(
+        name: String,
+        email: String,
+        password: String
+    ): Result<FirebaseUser> {
         return try {
             val result = firebaseAuth.createUserWithEmailAndPassword(
                 email,
                 password
             ).await()
-            result.user?.let { Result.success(it) }
+            val user = result.user
+            val profileUpdates = userProfileChangeRequest {
+                displayName = name
+            }
+            user?.updateProfile(profileUpdates)?.await()
+            user?.let { Result.success(it) }
                 ?: Result.failure(Exception("Sign up failed, user is null"))
         } catch (e: Exception) {
             Result.failure(
