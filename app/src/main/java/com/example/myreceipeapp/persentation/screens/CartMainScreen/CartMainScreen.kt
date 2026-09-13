@@ -85,7 +85,8 @@ fun CartMainScreen(
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )
                 NavigationDrawerItem(
-                    label = { Text("CARTS") },
+                    label = { Text("CARTS",
+                        color = myOrange) },
                     selected = true,
                     onClick = {
                         scope.launch {

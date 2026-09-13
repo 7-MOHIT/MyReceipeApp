@@ -58,6 +58,7 @@ import com.example.myreceipeapp.persentation.Navigation.CartScreenRoute
 import com.example.myreceipeapp.persentation.Navigation.HomeRoute
 import com.example.myreceipeapp.persentation.Navigation.ProductMainScreenRoute
 import com.example.myreceipeapp.persentation.screens.ProductsDetailScreen.TagsSection
+import com.example.myreceipeapp.persentation.screens.home.DrawerTop
 import com.example.myreceipeapp.ui.theme.myOrange
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -78,14 +79,9 @@ fun ProductMainScreen(
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet(modifier = Modifier.width(250.dp)) {
+            ModalDrawerSheet(modifier = Modifier.fillMaxWidth(0.65f)) {
                 Spacer(modifier = Modifier.height(12.dp))
-                Text(
-                    text = "DUMMY JSON DATA",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(16.dp)
-                )
+                DrawerTop(navController)
                 HorizontalDivider(modifier = Modifier.padding(bottom = 2.dp))
 
                 NavigationDrawerItem(
@@ -100,7 +96,8 @@ fun ProductMainScreen(
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )
                 NavigationDrawerItem(
-                    label = { Text("PRODUCTS") },
+                    label = { Text("PRODUCTS",
+                        color = myOrange) },
                     selected = true,
                     onClick = {
                         scope.launch {

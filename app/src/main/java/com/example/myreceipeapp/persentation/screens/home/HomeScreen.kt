@@ -23,12 +23,14 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.RestaurantMenu
 import androidx.compose.material.icons.filled.Search
@@ -74,11 +76,42 @@ import com.example.myreceipeapp.persentation.Components.LoadingIndicator
 import com.example.myreceipeapp.persentation.Components.SearchableTopAppBar
 import com.example.myreceipeapp.persentation.Navigation.CartScreenRoute
 import com.example.myreceipeapp.persentation.Navigation.ProductMainScreenRoute
+import com.example.myreceipeapp.persentation.Navigation.ProfileScreenRoute
 import com.example.myreceipeapp.ui.theme.myOrange
 import kotlinx.coroutines.launch
 
 
+@Composable
+fun DrawerTop(navController: NavController){
+    Row(
+        modifier = Modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "DUMMY JSON DATA",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(16.dp)
+        )
+        Box(
+            modifier = Modifier.padding(end = 10.dp).clickable(onClick = {navController.navigate(
+                ProfileScreenRoute
+            )})
+                .size(30.dp)
+                .clip(shape = CircleShape).
+                background(color =myOrange),
+            contentAlignment = Alignment.Center,
 
+        ) {
+            Icon(
+                Icons.Default.Person,
+                contentDescription = "Profile",
+                modifier = Modifier.size(25.dp)
+            )
+        }
+    }
+}
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -99,18 +132,15 @@ fun HomeScreen(
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet(modifier = Modifier.width(250.dp)) {
+            ModalDrawerSheet(modifier = Modifier.fillMaxWidth(0.65f)) {
                 Spacer(modifier = Modifier.height(12.dp))
-                Text(
-                    text = "DUMMY JSON DATA",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(16.dp)
-                )
+                DrawerTop(navController);
+
                 HorizontalDivider(modifier = Modifier.padding(bottom = 2.dp))
 
                 NavigationDrawerItem(
-                    label = { Text("RECIPES") },
+                    label = { Text("RECIPES",
+                        color = myOrange) },
                     selected = true,
                     onClick = {
                         scope.launch { drawerState.close() }
