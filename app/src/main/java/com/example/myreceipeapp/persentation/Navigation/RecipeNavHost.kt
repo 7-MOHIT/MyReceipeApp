@@ -93,7 +93,14 @@ fun RecipeNavHost() {
                 onNavigateToLogin = { navController.navigate(LoginScreenRoute) })
         }
         composable<ProfileScreenRoute> {
-            ProfileScreen(navController)
+            ProfileScreen(
+                onLogout = {
+                    navController.navigate(LoginScreenRoute) {
+                        popUpTo(navController.graph.id) { inclusive = true }
+                    }
+                },
+                navController = navController
+            )
         }
     }
 }
