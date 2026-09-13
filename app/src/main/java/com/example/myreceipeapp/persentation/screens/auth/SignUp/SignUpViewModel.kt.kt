@@ -80,7 +80,7 @@ class SignUpViewModel @Inject constructor(
 
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            authRepository.signUp(state.email, state.password)
+            authRepository.signUp(name = state.name, state.email, state.password)
                 .onSuccess {
                     _uiState.update { it.copy(isLoading = false, isSignUpSuccessful = true) }
                 }
