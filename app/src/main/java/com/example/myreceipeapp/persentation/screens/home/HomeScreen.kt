@@ -1,6 +1,9 @@
 package com.example.myreceipeapp.persentation.screens.home
 
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
+import androidx.annotation.ColorInt
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -23,6 +26,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.magnifier
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -35,6 +39,7 @@ import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.RestaurantMenu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.StarOutline
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DrawerValue
@@ -49,6 +54,7 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
@@ -63,6 +69,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
@@ -97,39 +104,89 @@ fun DrawerTop(navController: NavController) {
         {
             Box(
                 modifier = Modifier
-                    .padding(end = 10.dp)
+                    .padding(start = 16.dp)
                     .clickable(onClick = {
                         navController.navigate(
                             ProfileScreenRoute
                         )
                     })
-                    .size(30.dp)
+                    .size(40.dp)
                     .clip(shape = CircleShape)
-                    .background(color = myOrange),
+                    .background(color = myOrange.copy(alpha = 0.6f)),
                 contentAlignment = Alignment.Center,
 
                 ) {
                 Icon(
                     Icons.Default.Person,
                     contentDescription = "Profile",
-                    modifier = Modifier.size(25.dp)
+                    modifier = Modifier.size(35.dp)
                 )
             }
-            Text(
-                text = userName,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(16.dp)
-            )
+            Row() {
+                Text(
+                    text = userName,
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End
+            ) {
+                TextButton(
+                    onClick = { navController.navigate(ProfileScreenRoute)
+                    },
+                    modifier = Modifier.padding(end = 5.dp)
+                ) {
+                    Text(
+                        text = "View \nProfile",
+                        fontSize = 14.sp,
+                    )
+
+                }
+            }
         }
-        Text(
-            text = "Dummy Json Data",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(16.dp)
-        )
+        HorizontalDivider(modifier = Modifier.height(1.dp))
+        Row() {
+            Row(
+                modifier = Modifier,
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "Dummy Json Data",
+                    fontSize = 20.sp,
+                    color = myOrange.copy(alpha = 0.9f),
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(start = 16.dp, top = 8.dp, bottom = 8.dp)
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End
+            ) {
+                val context = LocalContext.current
+                TextButton(
+                    onClick = {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://dummyjson.com"))
+                        context.startActivity(intent)
+                    },
+                    modifier = Modifier.padding(end = 5.dp)
+                ) {
+                    Text(
+                        text = "View\nWebsite",
+                        fontSize = 14.sp,
+                    )
+                }
+            }
+        }
+        }
     }
-}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
