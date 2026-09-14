@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.example.myreceipeapp.persentation.screens.CartDetailScreen.CartDetailScreen
 import com.example.myreceipeapp.persentation.screens.CartMainScreen.CartMainScreen
 import com.example.myreceipeapp.persentation.screens.auth.LogIn.LogInScreen
 import com.example.myreceipeapp.persentation.screens.ProductsDetailScreen.ProductDetailScreen
@@ -22,7 +23,7 @@ fun RecipeNavHost() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = SplashRoute
+        startDestination = CartScreenRoute
     ) {
         composable<SplashRoute> {
             val authViewModel: AuthViewModel = hiltViewModel()
@@ -71,6 +72,9 @@ fun RecipeNavHost() {
         }
         composable<CartScreenRoute> {
             CartMainScreen(navController = navController)
+        }
+        composable<CartDetailScreenRoute>{
+            CartDetailScreen()
         }
         composable<LoginScreenRoute> {
             LogInScreen(

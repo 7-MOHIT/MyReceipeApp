@@ -9,7 +9,10 @@ object SplashRoute
 object LoginScreenRoute {
 
 }
+@Serializable
+object CartDetailScreenRoute{
 
+}
 @Serializable
 object SignUpScreenRoute
 
