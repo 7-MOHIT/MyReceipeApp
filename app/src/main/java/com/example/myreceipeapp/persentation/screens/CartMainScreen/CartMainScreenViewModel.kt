@@ -42,7 +42,9 @@ class CartMainScreenViewModel : ViewModel() {
         errorMessage = null
         viewModelScope.launch {
             try {
-                cartItems = repository.getAllCarts()
+                val result = repository.getAllCarts()
+                allCarts =result
+                cartItems = result
             } catch (e: Exception) {
                 errorMessage = e.message ?: "An unexpected error occurred."
             } finally {
