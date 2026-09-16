@@ -8,4 +8,8 @@ class CartRepositoryImpl(private val apiService: CartApiService) : CartRepositor
     override suspend fun getAllCarts(): List<Cart> {
         return apiService.getAllCarts().carts
     }
+
+    override suspend fun getCartById(id: Int): Cart {
+        return apiService.getCartById(id)
+    }
 }
