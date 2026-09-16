@@ -4,4 +4,5 @@ import com.example.myreceipeapp.data.remote.dto.Carts.Cart
 
 interface CartRepository  {
     suspend fun getAllCarts():List<Cart>
+    suspend fun getCartById(id: Int): Cart
 }
