@@ -10,7 +10,7 @@ object LoginScreenRoute {
 
 }
 @Serializable
-object CartDetailScreenRoute{
+data class CartDetailScreenRoute(val cartId:Int){
 
 }
 @Serializable
