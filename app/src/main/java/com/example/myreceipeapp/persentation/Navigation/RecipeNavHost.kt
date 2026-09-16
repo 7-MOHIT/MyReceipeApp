@@ -73,8 +73,9 @@ fun RecipeNavHost() {
         composable<CartScreenRoute> {
             CartMainScreen(navController = navController)
         }
-        composable<CartDetailScreenRoute>{
-            CartDetailScreen()
+        composable<CartDetailScreenRoute> { backStackEntry ->
+            val route = backStackEntry.toRoute<CartDetailScreenRoute>()
+            CartDetailScreen(navController = navController, cartId = route.cartId)
         }
         composable<LoginScreenRoute> {
             LogInScreen(
